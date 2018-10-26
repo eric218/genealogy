@@ -14,7 +14,7 @@ public class Donation extends SysDonationInfo implements Serializable {
 	// 二维码生成类
 	private String codeUrl;
 
-	// 标题11111
+	// 标题1111122
 	private String title;
 
 	public String getTitle() {
