@@ -1,0 +1,28 @@
+package com.dct.swocean.util;
+
+public class StringUtils
+{
+    public static boolean isEmpty(String param)
+    {
+        if (param == null || param.equals(""))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean isNotEmpty(String param)
+    {
+        if (isEmpty(param))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+}

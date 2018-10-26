@@ -1,0 +1,10 @@
+package com.dct.swocean.util.loghelper.service;
+
+import java.util.List;
+
+import com.dct.swocean.entity.LoggingEventVo;
+
+public interface ILoggingEventService {
+
+	public List<LoggingEventVo> queryLogsdtls();
+}

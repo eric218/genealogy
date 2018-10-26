@@ -1,0 +1,430 @@
+package com.dct.swocean.controller;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.dct.swocean.common.ConstantClassField;
+import com.dct.swocean.util.DateUtil;
+import com.dct.swocean.util.ExceptionHandle;
+import com.dct.swocean.util.ImageRemarkUtil;
+import com.dct.swocean.util.Response;
+import com.dct.swocean.util.ResponseEnum;
+import com.dct.swocean.util.ResponseUtlis;
+import com.dct.swocean.util.SysException;
+
+/**
+ * 图片添加水印操作 Created by huangxueshan on 2018/4/18.
+ */
+@Controller
+@RequestMapping("/imageRemark")
+public class ImageRemarkController
+{
+    private final static Logger logger = LoggerFactory.getLogger(ImageRemarkController.class);
+
+    /**
+     * 给图片添加图片水印
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     * @return
+     */
+    @RequestMapping("/markIcon")
+    @ResponseBody
+    public Response<?> markImageByIcon(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            
+            int positionWidth = jsonObj.getInteger("positionWidth");
+            int positionHeight = jsonObj.getInteger("positionHeight");
+            int degree = jsonObj.getInteger("degree");
+            boolean byMark = jsonObj.getBoolean("byMark");
+            float alpha = jsonObj.getFloatValue("alpha");
+
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String iconPath = jsonObj.getString("iconPath");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||iconPath.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或水印图片路径或结果图片路径为空");
+            }
+            
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            ImageRemarkUtil.setImageMarkOptions(alpha, positionWidth, positionHeight, null, null);
+            // 给图片添加水印
+            ImageRemarkUtil.markImageByIcon(iconPath, imgSrcPath, imgPath, degree, byMark);
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            //throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+            return ResponseUtlis.error(ResponseEnum.MARK_IMG_ERROR.getCode(), ResponseEnum.MARK_IMG_ERROR.getMsg());
+        }
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片左右上角添加水印
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     */
+    @RequestMapping("/markCornerIcon")
+    @ResponseBody
+    public Response<?> markImageCornerByIcon(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String iconPath = jsonObj.getString("iconPath");
+            boolean isRight = jsonObj.getBoolean("isRight");
+            float alpha = jsonObj.getFloatValue("alpha");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||iconPath.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或水印图片路径或结果图片路径为空");
+            }
+            
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            ImageRemarkUtil.setImageMarkOptions(alpha, 0, 0, null, null);
+            // 给图片添加水印
+            ImageRemarkUtil.markImageInCornerByIcon(iconPath, imgSrcPath, imgPath, isRight);
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片添加重复图片水印，覆盖全图
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     * @return
+     */
+    @RequestMapping("/markCoverIcon")
+    @ResponseBody
+    public Response<?> markImageCoverByIcon(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            int positionWidth = jsonObj.getInteger("positionWidth");
+            int positionHeight = jsonObj.getInteger("positionHeight");
+            int widthRep = jsonObj.getInteger("widthRep");
+            int heightRep = jsonObj.getInteger("heightRep");
+            int degree = jsonObj.getInteger("degree");
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String iconPath = jsonObj.getString("iconPath");
+            float alpha = jsonObj.getFloatValue("alpha");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||iconPath.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或水印图片路径或结果图片路径为空");
+            }
+            
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            ImageRemarkUtil.setImageMarkOptions(alpha, positionWidth, positionHeight, null, null);
+
+            ImageRemarkUtil.markImageCoverByIcon(iconPath, imgSrcPath, imgPath, degree, widthRep, heightRep);
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片添加水平重复图片水印，一行
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     * @return
+     */
+    @RequestMapping("/markLevelIcon")
+    @ResponseBody
+    public Response<?> markImageLevelByIcon(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            int positionHeight = jsonObj.getInteger("positionHeight");
+            int widthRep = jsonObj.getInteger("widthRep");
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String iconPath = jsonObj.getString("iconPath");
+            float alpha = jsonObj.getFloatValue("alpha");
+            boolean isTop = jsonObj.getBoolean("isTop");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||iconPath.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或水印图片路径或结果图片路径为空");
+            }
+            
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            ImageRemarkUtil.setImageMarkOptions(alpha, 0, positionHeight, null, null);
+
+            ImageRemarkUtil.markImageLevelByIcon(iconPath, imgSrcPath, imgPath, widthRep, isTop);
+
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片添加文字水印
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     * @return
+     */
+    @RequestMapping("/markText")
+    @ResponseBody
+    public Response<?> markImageByText(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            int positionWidth = jsonObj.getInteger("positionWidth");
+            int positionHeight = jsonObj.getInteger("positionHeight");
+            int degree = jsonObj.getInteger("degree");
+            float alpha = jsonObj.getFloatValue("alpha");
+            boolean byMark = jsonObj.getBoolean("byMark");
+            String familyName = jsonObj.getString("familyName");
+            int style = jsonObj.getInteger("style");
+            int size = jsonObj.getInteger("size");
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            Font font = new Font(familyName, style, size);
+            String colorStr = jsonObj.getString("color");
+            String[] colorNum = colorStr.split("@");
+            Color color = null;
+            if (colorNum.length == 3)
+            {
+                color = new Color(Integer.parseInt(colorNum[0]), Integer.parseInt(colorNum[1]),
+                        Integer.parseInt(colorNum[2]));
+            }
+
+            ImageRemarkUtil.setImageMarkOptions(alpha, positionWidth, positionHeight, font, color);
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String logText = jsonObj.getString("logText");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||logText.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或结果图片路径或水印内容为空");
+            }
+            
+            ImageRemarkUtil.markImageByText(logText, imgSrcPath, imgPath, degree, byMark);
+
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片左右上角添加文字水印
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     */
+    @RequestMapping("/markCornerText")
+    @ResponseBody
+    public Response<?> markImageCornerByText(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            float alpha = jsonObj.getFloatValue("alpha");
+            boolean isRight = jsonObj.getBoolean("isRight");
+            String familyName = jsonObj.getString("familyName");
+            int style = jsonObj.getInteger("style");
+            int size = jsonObj.getInteger("size");
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            Font font = new Font(familyName, style, size);
+            String colorStr = jsonObj.getString("color");
+            String[] colorNum = colorStr.split("@");
+            Color color = null;
+            if (colorNum.length == 3)
+            {
+                color = new Color(Integer.parseInt(colorNum[0]), Integer.parseInt(colorNum[1]),
+                        Integer.parseInt(colorNum[2]));
+            }
+
+            ImageRemarkUtil.setImageMarkOptions(alpha, 0, 0, font, color);
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String logText = jsonObj.getString("logText");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||logText.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或结果图片路径或水印内容为空");
+            }
+            
+            ImageRemarkUtil.markImageInCornerByText(logText, imgSrcPath, imgPath, isRight);
+
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片添加重复文字水印，覆盖全图
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     */
+    @RequestMapping("/markCoverText")
+    @ResponseBody
+    public Response<?> markImageCoverByText(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            int positionWidth = jsonObj.getInteger("positionWidth");
+            int positionHeight = jsonObj.getInteger("positionHeight");
+            int widthRep = jsonObj.getInteger("widthRep");
+            int heightRep = jsonObj.getInteger("heightRep");
+            int degree = jsonObj.getInteger("degree");
+            float alpha = jsonObj.getFloatValue("alpha");
+            String familyName = jsonObj.getString("familyName");
+            int style = jsonObj.getInteger("style");
+            int size = jsonObj.getInteger("size");
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            Font font = new Font(familyName, style, size);
+            String colorStr = jsonObj.getString("color");
+            String[] colorNum = colorStr.split("@");
+            Color color = null;
+            if (colorNum.length == 3)
+            {
+                color = new Color(Integer.parseInt(colorNum[0]), Integer.parseInt(colorNum[1]),
+                        Integer.parseInt(colorNum[2]));
+            }
+
+            ImageRemarkUtil.setImageMarkOptions(alpha, positionWidth, positionHeight, font, color);
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String logText = jsonObj.getString("logText");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||logText.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或结果图片路径或水印内容为空");
+            }
+            
+            ImageRemarkUtil.markImageCoverByText(logText, imgSrcPath, imgPath, degree, widthRep, heightRep);
+
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+    /**
+     * 给图片添加水平重复文字水印，一行
+     * 
+     * @param request
+     * @param json
+     * @param response
+     * @return
+     */
+    @RequestMapping("/markLevelText")
+    @ResponseBody
+    public Response<?> markImageLevelByText(HttpServletRequest request, String json, HttpServletResponse response)
+    {
+        try
+        {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            int positionHeight = jsonObj.getInteger("positionHeight");
+            int widthRep = jsonObj.getInteger("widthRep");
+            boolean isTop = jsonObj.getBoolean("isTop");
+            float alpha = jsonObj.getFloatValue("alpha");
+            String familyName = jsonObj.getString("familyName");
+            int style = jsonObj.getInteger("style");
+            int size = jsonObj.getInteger("size");
+            // 参数依次为透明度、水印位置宽度、水印位置高度、字体、颜色
+            Font font = new Font(familyName, style, size);
+            String colorStr = jsonObj.getString("color");
+            String[] colorNum = colorStr.split("@");
+            Color color = null;
+            if (colorNum.length == 3)
+            {
+                color = new Color(Integer.parseInt(colorNum[0]), Integer.parseInt(colorNum[1]),
+                        Integer.parseInt(colorNum[2]));
+            }
+
+            ImageRemarkUtil.setImageMarkOptions(alpha, 0, positionHeight, font, color);
+            String imgSrcPath = jsonObj.getString("imgSrcPath");
+            String logText = jsonObj.getString("logText");
+            // 返回图片路径
+            String imgPath = jsonObj.getString("imgPath");
+            if(imgSrcPath.isEmpty()||logText.isEmpty()||imgPath.isEmpty()){
+                throw new Exception("图片路径或结果图片路径或水印内容为空");
+            }
+            
+            ImageRemarkUtil.markImageLevelByText(logText, imgSrcPath, imgPath, widthRep, isTop);
+
+        }
+        catch (Exception e)
+        {
+            logger.error(ExceptionHandle.getExceptionJson(e, request.getRequestURI(), json),
+                    ConstantClassField.ERROR_LOG, "用户名", DateUtil.getTime());
+            throw new SysException(ResponseEnum.MARK_IMG_ERROR);
+        }
+
+        return ResponseUtlis.success("添加水印成功");
+    }
+
+}
