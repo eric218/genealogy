@@ -1,8 +1,0 @@
-package com.dct.swocean.service;
-
-public interface TableExistsService
-{
-    
-    public String tableExists(String table);
-
-}
