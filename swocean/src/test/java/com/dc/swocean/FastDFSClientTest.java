@@ -10,7 +10,7 @@ import com.dct.swocean.common.FastDFSClient;
 
 public class FastDFSClientTest {
 
-	@Test
+	//@Test
 	public void demo01() throws Exception {
 		// 导入fastDFS的jar包
 		// 1、加载配置文件，配置文件中的内容就是tracker服务的地址。
@@ -38,7 +38,7 @@ public class FastDFSClientTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void demo02() throws Exception {
 		FastDFSClient fastDFSClient = new FastDFSClient(
 				"E:/Java EE/WorkSpace3/itrip-manger-web/src/main/resources/resource/fdfs_client.conf");

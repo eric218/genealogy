@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.csrf().ignoringAntMatchers("/login/**");
 		httpSecurity.authorizeRequests()
 				.antMatchers("/", "/chat", "/File/**", "/login", "/family/**", "/columnIndustry/**", "/upload",
-						"/home/**", "/charity/**", "/donation/**", "/charityIn/**", "/pay/**", "/user/**")
+						"/home/**", "/charity/**", "/donation/**", "/charityIn/**", "/pay/**", "/user/**","/homeIn/**")
 				.permitAll().anyRequest().authenticated().and()
 				// .csrf().ignoringAntMatchers("/login/**").and()
 				.formLogin().loginPage("/login")// 登录页面的地址

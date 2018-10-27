@@ -95,8 +95,8 @@ public class CharityController {
 		// 跨域解决
 		response.setHeader("Access-Control-Allow-Origin", "*");
 
-		List<SysDonationInfo> list = sysDonationInfoService.selectByPayTime(areaCode, pageNo - 1, pageSize);
-		return ResponseUtlis.success(list);
+		List<Donor> donors = sysDonationInfoService.selectByPayTime(areaCode, pageNo - 1, pageSize);
+		return ResponseUtlis.success(donors);
 	}
 
 	// 基金收入

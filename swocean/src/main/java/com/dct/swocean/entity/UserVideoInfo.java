@@ -2,10 +2,10 @@ package com.dct.swocean.entity;
 
 import java.io.Serializable;
 
-//地区捐款人数
-public class DontionAreaInfo implements Serializable {
+public class UserVideoInfo implements Serializable {
+
     private String areaCode;
-    private Long donorNum;
+    private Long videoCount;
 
     public String getAreaCode() {
         return areaCode;
@@ -15,11 +15,11 @@ public class DontionAreaInfo implements Serializable {
         this.areaCode = areaCode;
     }
 
-    public Long getDonorNum() {
-        return donorNum;
+    public Long getVideoCount() {
+        return videoCount;
     }
 
-    public void setDonorNum(Long donorNum) {
-        this.donorNum = donorNum;
+    public void setVideoCount(Long videoCount) {
+        this.videoCount = videoCount;
     }
 }

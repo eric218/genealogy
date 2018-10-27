@@ -5,7 +5,7 @@ import org.junit.Test;
 
 
 		public class GetImgSrc {
-			@Test
+			//@Test
 			// JUnit Test
 			public static void main(String[] args){
 			    String s = "xyzXYZ";

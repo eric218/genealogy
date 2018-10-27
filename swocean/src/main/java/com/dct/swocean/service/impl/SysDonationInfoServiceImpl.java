@@ -6,17 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 import com.dct.swocean.dao.*;
+import com.dct.swocean.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dct.swocean.entity.Donor;
-import com.dct.swocean.entity.SysAccountInfo;
-import com.dct.swocean.entity.SysAreaInfo;
-import com.dct.swocean.entity.SysConstantInfo;
-import com.dct.swocean.entity.SysDonationInfo;
-import com.dct.swocean.entity.SysUserLoginInfo;
 import com.dct.swocean.service.SysDonationInfoService;
 import com.dct.swocean.util.DateUtil;
 
@@ -78,10 +73,10 @@ public class SysDonationInfoServiceImpl implements SysDonationInfoService {
 
     // 查询捐款信息
     @Override
-    public List<SysDonationInfo> selectByPayTime(String areaCode, Integer pageNo, Integer pageSize) {
+    public List<Donor> selectByPayTime(String areaCode, Integer pageNo, Integer pageSize) {
         String sql = "select * from sys_donation d,sys_area a,sys_account t where a.area_code=" + "'" + areaCode + "'"
                 + " order by pay_time desc limit " + pageNo + "," + pageSize;
-        return sysDonationInfoMapper.findList(sql);
+        return donorMapper.findList(sql);
     }
 
     // 查询捐款個人信息
@@ -98,13 +93,6 @@ public class SysDonationInfoServiceImpl implements SysDonationInfoService {
         String sql = "select donor,sum(pay_amount) pay_amount,pic,name from sys_donation d,sys_area a,sys_account t,sys_user_reg where t.name=a.area_name AND d.account=t.account and donor=real_name and area_code ="
                 + "'" + areaCode + "'" + "group by donor limit " + pageNo + "," + pageSize;
         return donorMapper.findList(sql);
-    }
-
-    //查询地区捐款人数
-    @Override
-    public Long countDonor(String areaCode) {
-        String sql = "select count(distinct donor),area_code from sys_donation d,sys_area a,sys_account t where t.name = a.area_name and t.account=d.account and a.area_code ="+"'"+areaCode+"'";
-        return donationAreaInfoMapper.count(sql);
     }
 
 }
