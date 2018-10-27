@@ -6,31 +6,31 @@ import com.dct.swocean.entity.SysDonationInfo;
 
 public class Donation extends SysDonationInfo implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	// 二维码生成类
-	private String codeUrl;
+    // 二维码生成类
+    private String codeUrl;
 
-	// 标题1111122
-	private String title;
+    // 标题
+    private String title;
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getCodeUrl() {
-		return codeUrl;
-	}
+    public String getCodeUrl() {
+        return codeUrl;
+    }
 
-	public void setCodeUrl(String codeUrl) {
-		this.codeUrl = codeUrl;
-	}
+    public void setCodeUrl(String codeUrl) {
+        this.codeUrl = codeUrl;
+    }
 
 }
