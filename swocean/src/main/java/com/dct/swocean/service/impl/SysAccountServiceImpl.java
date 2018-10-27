@@ -20,7 +20,7 @@ public class SysAccountServiceImpl implements SysAccountService {
 	@Autowired
 	private SysAreaInfoMapper sysAreaInfoMapper;
 
-	// 增加基金总金额
+	// 增加基金总金额1
 	@Override
 	public void update(String creator, BigDecimal payMoney) {
 
