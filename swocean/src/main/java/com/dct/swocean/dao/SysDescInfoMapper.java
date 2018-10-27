@@ -1,5 +1,9 @@
 package com.dct.swocean.dao;
 
-public interface SysDescInfoMapper extends BaseMapper<SysDescInfoMapper> {
+import com.dct.swocean.entity.SysDescInfo;
+
+public interface SysDescInfoMapper extends BaseMapper<SysDescInfo> {
+
+
 }
 

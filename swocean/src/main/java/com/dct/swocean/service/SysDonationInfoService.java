@@ -19,4 +19,7 @@ public interface SysDonationInfoService {
 	List<SysDonationInfo> selectByName(String donor, Integer pageNo, Integer pageSize);
 
 	List<Donor> selectByDonor(String areaCode, Integer pageNo, Integer pageSize);
+
+	//捐款人数
+	Long countDonor(String areaCode);
 }
