@@ -6,7 +6,7 @@ import com.dct.swocean.entity.SysAccountInfo;
 
 public interface SysAccountService {
 
-	// 增加基金总金额 11
+	// 增加基金总金额222
 	void update(String name, BigDecimal payMoney);
 
 	// 減少基金总金额
