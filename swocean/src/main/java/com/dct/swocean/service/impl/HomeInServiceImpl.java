@@ -47,21 +47,19 @@ public class HomeInServiceImpl implements HomeInService {
 
     @Override
     public List<ArticlerInfo> select( String areaCode, String status,String type, Integer pageNo, Integer pageSize) {
-
-        String sql = "select publisher useId,count(*),region,pic from sys_writing,sys_user_reg where region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and status ="+"'"+status+"'"+" order by publisher limit "+pageNo+","+pageSize;
-        sql="select real_name userId,count(*) count,w.region,r.pic from sys_writing w,sys_user_reg r,sys_user_login u where w.publisher=u.user_id and u.user_name=r.real_name and w.region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and w.status ="+"'"+status+"'"+" order by publisher limit "+pageNo+","+pageSize;
+        String sql="select real_name userId,w.region,r.pic from sys_writing w,sys_user_reg r,sys_user_login u where w.publisher=u.user_id and u.user_name=r.real_name and w.region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and w.status ="+"'"+status+"'"+" group by publisher order by publish_time desc limit "+pageNo+","+pageSize;
         return articlerInfoMapper.findList(sql);
     }
 
     @Override
     public UserVideoInfo countVideo(String areaCode, String type, String status) {
-        String sql = "select count(*),region from sys_uploadinfo where region="+"'"+areaCode+"'"+""+" and file_type ="+"'"+type+"'"+" and status ="+"'"+status+"'";
+        String sql = "select count(*) videoCount,region areaCode from sys_uploadinfo where region="+"'"+areaCode+"'"+""+" and file_type ="+"'"+type+"'"+" and status ="+"'"+status+"'";
         return userVideoInfoMapper.findOne(sql);
     }
 
     @Override
     public List<ArticlerInfo> selectByAreaCode( String areaCode, String status,String type, Integer pageNo, Integer pageSize) {
-        String sql = "select publisher,count(*),region from sys_uploadinfo where region=region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and status ="+"'"+status+"'"+" order by publisher limit "+pageNo+","+pageSize;
+        String sql = "select real_name userId,u.region,r.pic from sys_uploadinfo u,sys_user_reg r,sys_user_login u where region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and u.status ="+"'"+status+"'"+" group by upload_user order by upload_time desc limit "+pageNo+","+pageSize;
         return articlerInfoMapper.findList(sql);
     }
 }

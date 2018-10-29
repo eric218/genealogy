@@ -84,7 +84,7 @@ public class HomeInController {
     //个人视频数
     @RequestMapping("video")
     public Response<UserVideoInfo> selectByAreaCode(HttpServletResponse response,@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
-                                                    @RequestParam(value = "type", defaultValue = "03") String type,@RequestParam(value = "status", defaultValue = "1") String status){
+                                                    @RequestParam(value = "type", defaultValue = "02") String type,@RequestParam(value = "status", defaultValue = "1") String status){
 
         // 跨域解决
         response.setHeader("Access-Control-Allow-Origin", "*");
