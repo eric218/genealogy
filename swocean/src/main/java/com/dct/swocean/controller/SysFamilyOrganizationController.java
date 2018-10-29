@@ -26,6 +26,7 @@ public class SysFamilyOrganizationController {
 
 	@Autowired
 	private SysFamilyOrganizationService sysFamilyOrganizationService;
+
 	
 	
 	//家族组织机构后台文章分类查询

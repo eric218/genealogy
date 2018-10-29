@@ -3,6 +3,7 @@ package com.dct.swocean.service;
 
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
+import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysRightinfoInfo;
 import com.dct.swocean.entity.SysWritingInfo;
 import com.dct.swocean.util.Response;
@@ -26,7 +27,7 @@ public interface SysFamilyCultureService {
 	 * @param writingsId 文章ID
 	 * @return
 	 */
-	SysWritingInfo detailsPublish(String writingsId);
+	Response<SysWritingInfo> detailsPublish(String writingsId);
 	
 	//***************************************
 	
@@ -50,7 +51,7 @@ public interface SysFamilyCultureService {
      * @param column  分类的栏目
      * @param rightName
      */
-	void addClassify(String column, String rightName);
+	Response<SysRightinfoInfo> addClassify(String column, String rightName);
 
 	//***************************************
 	
@@ -65,14 +66,14 @@ public interface SysFamilyCultureService {
 	 * 前台增加点赞
 	 * @param writingsId 文章ID
 	 */
-	void insertLike(String writingsId);
+	Response<SysWritingInfo> insertLike(String writingsId);
 
 	/**
 	 * 前台查看详情增加查看数
 	 * @param writingsId 文章ID
 	 * @return
 	 */
-	FamilyIndustry selectParticulars(String writingsId);
+	Response<FamilyIndustry> selectParticulars(String writingsId);
 
 	/**
 	 * 进入前台家族产业发表页面显示草稿信息
@@ -121,7 +122,7 @@ public interface SysFamilyCultureService {
 	 * @param familyName 姓氏名称
 	 * @return
 	 */
-	CulturePage backstageCommonality(String userId, Integer style, Integer pageNow, Integer pageSize, String areaCode,
+	Response<CulturePage> backstageCommonality(String userId, Integer style, Integer pageNow, Integer pageSize, String areaCode,
 			String familyName);
 
 	
@@ -130,14 +131,14 @@ public interface SysFamilyCultureService {
 	 * @param writingsId 文章ID
 	 * @return
 	 */
-	FamilyIndustry backstage(String writingsId);
+	Response<FamilyIndustry> backstage(String writingsId);
 
 	/**
 	 * 家族文化后台进入修改页面
 	 * @param writingsId 文章ID
 	 * @return
 	 */
-	SysWritingInfo amend(String writingsId);
+	Response<SysWritingInfo> amend(String writingsId);
 
 	/**
 	 *  家族产业后台进入修改页面后发表或者草稿
@@ -157,6 +158,17 @@ public interface SysFamilyCultureService {
 	 * @param writingsId 文章ID
 	 */
 	Response<SysWritingInfo> deleteData(String writingsId);
+
+
+	//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&省级下属县级接口&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+	
+	/**
+	 * 省级下属县级官网
+	 * @param areaCode   地区ID
+	 * @param familyName 地区姓氏
+	 * @return
+	 */
+	Response<SysConstantInfo> provincialUnderling(String areaCode, String familyName);
 
 	
 	

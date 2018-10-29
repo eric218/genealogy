@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 
- * 家族产业栏目
+ * 联谊会家族产业栏目
  *
  */
 
