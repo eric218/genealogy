@@ -8,17 +8,26 @@ public class SysDescInfo implements Serializable {
     private String descGroup;
     private String descRoot;
     private String areaCode;
-    private String descType;
     private String descLeader;
+    private String phone;
     private Integer worship;
     private Integer zan;
+    private Integer status;
 
-    public String getDescType() {
-        return descType;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setDescType(String descType) {
-        this.descType = descType;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getDescId() {
