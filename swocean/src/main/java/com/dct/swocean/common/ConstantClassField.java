@@ -18,4 +18,9 @@ public final class ConstantClassField {
     public static final String OTHER_LOG = "other";
     public static final String DATABASE_TABLE_NON_EXIST = "表不存在";
     public static final Integer DATABASE_TABLE_CODE = 101;
+    
+	// fastDFS配置文件地址
+	public static final String SITE_FAST_DFS = "E:\\yu\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties";
+	// fastDFS服务器ip地址
+	public static final String IP_FAST_DFS = "http://192.168.25.130/";
 }

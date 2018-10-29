@@ -18,6 +18,8 @@ public class SysRightinfoInfo implements Serializable{
 	private String reportId;
 	private String partType;
 	private String partId;
+	private String permission_type;
+	private int status;
 	public int getRightId() {
 		return rightId;
 	}
@@ -78,6 +80,17 @@ public class SysRightinfoInfo implements Serializable{
 	public void setPartId(String partId) {
 		this.partId = partId;
 	}
-	
+	public String getPermission_type() {
+		return permission_type;
+	}
+	public void setPermission_type(String permission_type) {
+		this.permission_type = permission_type;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	
 }
