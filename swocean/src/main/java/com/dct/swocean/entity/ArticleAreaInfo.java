@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class ArticleAreaInfo implements Serializable {
 
     private String useId;
-    private String code;
+    private String region;
     private String type;
-    private Long articleCount;
+    private Long count;
 
     public String getUseId() {
         return useId;
@@ -17,12 +17,12 @@ public class ArticleAreaInfo implements Serializable {
         this.useId = useId;
     }
 
-    public String getCode() {
-        return code;
+    public String getRegion() {
+        return region;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getType() {
@@ -33,11 +33,11 @@ public class ArticleAreaInfo implements Serializable {
         this.type = type;
     }
 
-    public Long getArticleCount() {
-        return articleCount;
+    public Long getCount() {
+        return count;
     }
 
-    public void setArticleCount(Long articleCount) {
-        this.articleCount = articleCount;
+    public void setCount(Long count) {
+        this.count = count;
     }
 }

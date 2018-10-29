@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ArticlerInfo implements Serializable {
 
     private String userId;
-    private String areaCode;
+    private String region;
     private String pic;
     private Long count;
 
@@ -17,12 +17,12 @@ public class ArticlerInfo implements Serializable {
         this.userId = userId;
     }
 
-    public String getAreaCode() {
-        return areaCode;
+    public String getRegion() {
+        return region;
     }
 
-    public void setAreaCode(String areaCode) {
-        this.areaCode = areaCode;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getPic() {

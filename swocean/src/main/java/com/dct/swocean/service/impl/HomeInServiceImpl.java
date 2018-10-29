@@ -41,13 +41,15 @@ public class HomeInServiceImpl implements HomeInService {
 
     @Override
     public ArticleAreaInfo countArticle(String areaCode, String type,String status) {
-        String sql = "select count(*),region from sys_writing where region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and status ="+"'"+status+"'";
+        String sql = "select count(*) count,region,type,publisher useId from sys_writing where region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and status ="+"'"+status+"'";
         return articleAreaInfoMapper.findOne(sql);
     }
 
     @Override
     public List<ArticlerInfo> select( String areaCode, String status,String type, Integer pageNo, Integer pageSize) {
-        String sql = "select publisher,count(*),region from sys_writing where region=region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and status ="+"'"+status+"'"+" order by publisher limit "+pageNo+","+pageSize;
+
+        String sql = "select publisher useId,count(*),region,pic from sys_writing,sys_user_reg where region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and status ="+"'"+status+"'"+" order by publisher limit "+pageNo+","+pageSize;
+        sql="select real_name userId,count(*) count,w.region,r.pic from sys_writing w,sys_user_reg r,sys_user_login u where w.publisher=u.user_id and u.user_name=r.real_name and w.region="+"'"+areaCode+"'"+" and type ="+"'"+type+"'"+" and w.status ="+"'"+status+"'"+" order by publisher limit "+pageNo+","+pageSize;
         return articlerInfoMapper.findList(sql);
     }
 

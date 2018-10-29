@@ -94,7 +94,7 @@ public class HomeInController {
     }
 
     //活跃宗亲
-    @RequestMapping("articler")
+    @RequestMapping("article")
     public Response<ArticlerInfo> selectByAreaCode(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
                                          @RequestParam(value = "type", defaultValue = "03") String type,@RequestParam(value = "status", defaultValue = "1") String status,
                                          @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
