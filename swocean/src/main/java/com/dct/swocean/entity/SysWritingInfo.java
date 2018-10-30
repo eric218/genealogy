@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class SysWritingInfo implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String writingsId;
 	private String region;
@@ -30,22 +26,6 @@ public class SysWritingInfo implements Serializable {
 	private int collection;
 	private int examine;
 	private String location;
-
-	public int getExamine() {
-		return examine;
-	}
-
-	public void setExamine(int examine) {
-		this.examine = examine;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
