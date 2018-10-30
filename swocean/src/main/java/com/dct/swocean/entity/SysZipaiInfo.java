@@ -23,6 +23,10 @@ public class SysZipaiInfo implements Serializable {
 	private String creator;
 	private Timestamp createTime;
 	private int status;
+	private int like;
+	private int comment;
+	private int relay;
+	private int collection;
 
 	public String getZipaIid() {
 		return zipaIid;
@@ -86,6 +90,38 @@ public class SysZipaiInfo implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getLike() {
+		return like;
+	}
+
+	public void setLike(int like) {
+		this.like = like;
+	}
+
+	public int getComment() {
+		return comment;
+	}
+
+	public void setComment(int comment) {
+		this.comment = comment;
+	}
+
+	public int getRelay() {
+		return relay;
+	}
+
+	public void setRelay(int relay) {
+		this.relay = relay;
+	}
+
+	public int getCollection() {
+		return collection;
+	}
+
+	public void setCollection(int collection) {
+		this.collection = collection;
 	}
 
 }

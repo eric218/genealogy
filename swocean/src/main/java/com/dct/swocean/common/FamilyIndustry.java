@@ -15,12 +15,19 @@ public class FamilyIndustry extends SysWritingInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String constantName;
+	private String constantName; //真实姓名
+	private String areaName; //地址名称
 	public String getConstantName() {
 		return constantName;
 	}
 	public void setConstantName(String constantName) {
 		this.constantName = constantName;
+	}
+	public String getAreaName() {
+		return areaName;
+	}
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
 	}
 	
 }
