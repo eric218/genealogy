@@ -2,6 +2,7 @@ package com.dct.swocean.entity;
 
 import java.io.Serializable;
 
+//轮播图
 public class SysPicInfo implements Serializable {
 
     private String picId;

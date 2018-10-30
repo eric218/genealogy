@@ -1,5 +1,6 @@
 package com.dct.swocean.service.impl;
 
+import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.FastDFSClient;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.dao.*;
@@ -81,11 +82,17 @@ public class HomeInServiceImpl implements HomeInService {
     }
 
     @Override
+    public SysAreaInfo selectByArea(String areaCode) {
+        String sql = "select * from sys_area where area_code = " + "'" + areaCode + "'";
+        return sysAreaInfoMapper.findOne(sql);
+    }
+
+    @Override
     public void update(String areaCode, String pic) {
 
         try {
-            FastDFSClient fastDFSClient = new FastDFSClient("string");
-            pic = fastDFSClient.uploadFile(pic);
+            FastDFSClient fastDFSClient = new FastDFSClient("E:\\work\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");
+            pic = ConstantClassField.IP_FAST_DFS+fastDFSClient.uploadFile(pic);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,11 +102,18 @@ public class HomeInServiceImpl implements HomeInService {
     }
 
     @Override
+    public SysDescribeInfo selectByAreaCode(String areaCode) {
+        String sql = "select * from sys_describe where area_code = " + "'" + areaCode + "'";
+        return sysDescribeMapper.findOne(sql);
+    }
+
+    @Override
     public void updateSummary(SysDescribeInfo sysDescribeInfo) {
         String sql = "";
-        if (!sysDescribeInfo.getTitle().equals("")) {
+        if (!"".equals(sysDescribeInfo.getTitle())) {
             sql = "update sys_describe set title =" + "'" + sysDescribeInfo.getTitle() + "'" + " where id = " + "'" + sysDescribeInfo.getId() + "'";
-        } else {
+        }
+        if (!"".equals("sysDescribeInfo.getDescription()")) {
             sql = "update sys_describe set description =" + "'" + sysDescribeInfo.getDescription() + "'" + " where id=" + "'" + sysDescribeInfo.getId() + "'";
         }
         sysDescribeMapper.update(sql);
@@ -107,20 +121,20 @@ public class HomeInServiceImpl implements HomeInService {
 
     @Override
     public DescInfo countDescInfo(String areaCode, Integer status) {
-        String sql = "select area_code areaCode,count(*) from sys_desc where area_code =" + "'" + areaCode + "'" + " and status =" + status;
+        String sql = "select area_code areaCode,count(*) count from sys_desc where area_code =" + "'" + areaCode + "'" + " and status =" + status;
         return descInfoMapper.findOne(sql);
     }
 
     @Override
     public void addDescInfo(SysDescInfo sysDescInfo) {
         String id = IDUtils.genId() + "";
-        String sql = "insert into sys_desc values (" + "'" + id + "'" + "," + "'" + sysDescInfo.getDescGroup() + "'" + "," + "'" + sysDescInfo.getDescRoot() + "'" + "," + "'" + sysDescInfo.getAreaCode() + "'" + "," + "'" + sysDescInfo.getDescLeader() + "'" + "," + "'" + sysDescInfo.getPhone() + "'" + 0 + "," + 0 + "," + sysDescInfo.getStatus() + ")";
+        String sql = "insert into sys_desc values (" + "'" + id + "'" + "," + "'" + sysDescInfo.getDescGroup() + "'" + "," + "'" + sysDescInfo.getDescRoot() + "'" + "," + "'" + sysDescInfo.getAreaCode() + "'" + "," + "'" + sysDescInfo.getDescLeader() + "'" + "," + "'" + sysDescInfo.getPhone() + "'" +","+ 0 + "," + 0 + "," + sysDescInfo.getStatus() + ")";
         sysDescInfoMapper.insert(sql);
     }
 
     @Override
     public List<SysDescInfo> selectSysDescInfo(String areaCode, Integer status) {
-        String sql = "select * from sys_desc where area_code = " + "'" + areaCode + "'" + " and status !=" + status;
+        String sql = "select * from sys_desc where area_code = " + "'" + areaCode + "'" + " and status !=" + status+" order by desc_id desc";
         return sysDescInfoMapper.findList(sql);
     }
 
@@ -133,13 +147,13 @@ public class HomeInServiceImpl implements HomeInService {
     @Override
     public void updateSysDescInfo(SysDescInfo sysDescInfo) {
 
-        String sql = "update sys_desc set desc_group =" + "'" + sysDescInfo.getDescGroup() + "'" + "," + " desc_root =" + "'" + sysDescInfo.getDescRoot() + "'" + "," + " desc_leader =" + "'" + sysDescInfo.getDescLeader() + "'" + "," + " phone =" + "'" + sysDescInfo.getPhone() + "'" + " where desc_id =" + "'" + sysDescInfo.getDescId() + "'";
+        String sql = "update sys_desc set desc_group =" + "'" + sysDescInfo.getDescGroup() + "'" + "," + " desc_root =" + "'" + sysDescInfo.getDescRoot() + "'" + "," + " desc_leader =" + "'" + sysDescInfo.getDescLeader() + "'" + "," + " phone =" + "'" + sysDescInfo.getPhone() + "'"+"," + " status =" + sysDescInfo.getStatus() + " where desc_id =" + "'" + sysDescInfo.getDescId() + "'";
         sysDescInfoMapper.update(sql);
     }
 
     @Override
     public void deleteSysDescInfo(String id) {
-        String sql = "update sys_desc set status =" + 2 + " where desc_id =" + "'" + id + "'";
+        String sql = "update sys_desc set status =" + 0 + " where desc_id =" + "'" + id + "'";
         sysDescInfoMapper.update(sql);
     }
 
@@ -147,8 +161,8 @@ public class HomeInServiceImpl implements HomeInService {
     public void uploadPic(String areaCode, String pic, Integer status, Integer sort) {
 
         try {
-            FastDFSClient fastDFSClient = new FastDFSClient("string");
-            pic = fastDFSClient.uploadFile(pic);
+            FastDFSClient fastDFSClient = new FastDFSClient("E:\\work\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");
+            pic = ConstantClassField.IP_FAST_DFS+fastDFSClient.uploadFile(pic);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,7 +173,7 @@ public class HomeInServiceImpl implements HomeInService {
 
     @Override
     public void deletePic(String id, Integer status) {
-        String sql = "update sys_pic set status ="+status+" where pic_id ="+"'"+id+"'";
+        String sql = "update sys_pic set status =" + status + " where pic_id =" + "'" + id + "'";
         sysPicMapper.update(sql);
     }
 

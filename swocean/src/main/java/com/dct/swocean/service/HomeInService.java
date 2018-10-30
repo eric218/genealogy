@@ -24,8 +24,14 @@ public interface HomeInService {
     //地区活跃宗亲
     List<ArticlerInfo> selectByAreaCode(String areaCode, String status, String type, Integer pageNo, Integer pageSize);
 
-    //姓氏图腾
+    //查询姓氏图腾
+    SysAreaInfo selectByArea(String areaCode);
+
+    //修改姓氏图腾
     void update(String areaCode, String pic) throws Exception;
+
+    //查询地区内容
+    SysDescribeInfo selectByAreaCode(String areaCode);
 
     //修改地区内容(宣言,简介)
     void updateSummary(SysDescribeInfo sysDescribeInfo);
