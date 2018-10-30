@@ -26,6 +26,7 @@ import com.dct.swocean.util.ResponseUtlis;
 import com.github.pagehelper.PageInfo;
 
 @Service
+@SuppressWarnings("unchecked")
 public class SysZiPaiServiceImpl implements SysZiPaiService {
 
 	@Autowired

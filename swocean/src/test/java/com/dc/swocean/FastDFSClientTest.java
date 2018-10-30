@@ -1,4 +1,5 @@
 package com.dc.swocean;
+import org.apache.xmlbeans.impl.schema.SoapEncSchemaTypeSystem;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.StorageClient;
 import org.csource.fastdfs.StorageServer;
@@ -7,8 +8,11 @@ import org.csource.fastdfs.TrackerServer;
 import org.junit.Test;
 
 import com.dct.swocean.common.FastDFSClient;
+import com.dct.swocean.util.StringUtils;
 
 public class FastDFSClientTest {
+
+	private int lastIndexOf;
 
 	@Test
 	public void demo01() throws Exception {
@@ -40,11 +44,14 @@ public class FastDFSClientTest {
 
 	@Test
 	public void demo02() throws Exception {
-		FastDFSClient fastDFSClient = new FastDFSClient(
-				"E:\\yu\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");
+		/*FastDFSClient fastDFSClient = new FastDFSClient(
+				"E:\\yu\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");*/
 
-		String string = fastDFSClient.uploadFile("F:\\tup\\1.jpg");
-        String path="http://192.168.2.132/"+string;
+		/*String string = fastDFSClient.uploadFile("F:\\tup\\3.jpg");
+		String path = StringUtils.getPath(string);
+		string = string.substring(string.lastIndexOf("/")+1);
+		String path="http://192.168.2.132:8090/"+path2;*/
+		String path = StringUtils.getPath("F:\\tup\\3.jpg");
 		System.out.println(path);
 	}
 }
