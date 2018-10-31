@@ -142,11 +142,15 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 	
 	//进入前台家族产业发表页面详情 草稿
 	@Override
-	public SysWritingInfo detailsPublish(String writingsId) {
+	public Response<SysWritingInfo> detailsPublish(String writingsId) {
+		try {
 			String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
-			FamilyIndustry findOne = familyIndustryMapper.findOne(sql);
-			return findOne;
-		
+			SysWritingInfo findOne = sysWritingInfoMapper.findOne(sql);
+			return ResponseUtlis.success(findOne);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
+		}
 	}
 
 	//进入前台家族产业发表页面草稿删除
@@ -191,14 +195,20 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 
 	// 增加点赞数
 	@Override
-	public void insertLike(String writingsId) {
-		// 查询出点赞数
-		String sql = "SELECT w.like FROM sys_writing w WHERE w.writings_id='" + writingsId + "';";
-		SysWritingInfo findOne = sysWritingInfoMapper.findOne(sql);
-		// 增加点赞数
-		int like = findOne.getLike() + 1;
-		sql = "UPDATE sys_writing w SET w.like='" + like + "' WHERE w.writings_id='" + writingsId + "'";
-		sysAreaInfoMapper.update(sql);
+	public Response<SysWritingInfo> insertLike(String writingsId) {
+		try {
+			// 查询出点赞数
+			String sql = "SELECT w.like FROM sys_writing w WHERE w.writings_id='" + writingsId + "';";
+			SysWritingInfo findOne = sysWritingInfoMapper.findOne(sql);
+			// 增加点赞数
+			int like = findOne.getLike() + 1;
+			sql = "UPDATE sys_writing w SET w.like='" + like + "' WHERE w.writings_id='" + writingsId + "'";
+			sysAreaInfoMapper.update(sql);
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "点赞成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtlis.error(FAILURE_CODE, "点赞失败");
+		}
 	}
 
 	// 查看详情增加查看数
@@ -245,15 +255,21 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 	
 	// 家族产业后台文章分类添加
 	@Override
-	public void addClassify(String column, String rightName) {
-		/*// 查询分类父ID
-		String sql = "SELECT r.* FROM sys_rightinfo r WHERE r.right_id='" + style + "'";
-		SysRightinfoInfo rightinfoInfo = sysRightinfoInfoMapper.findOne(sql);*/
-		// 插入家族产业子分类
-		// status=2 表示可以删除
-	   String sql = "INSERT INTO sys_rightinfo (right_name, parent_id,status) VALUES ('" + rightName + "','"
-				+ column+ "','2')";
-		sysRightinfoInfoMapper.insert(sql);
+	public Response<SysRightinfoInfo> addClassify(String column, String rightName) {
+		try {
+			/*// 查询分类父ID
+			String sql = "SELECT r.* FROM sys_rightinfo r WHERE r.right_id='" + style + "'";
+			SysRightinfoInfo rightinfoInfo = sysRightinfoInfoMapper.findOne(sql);*/
+			// 插入家族产业子分类
+			// status=2 表示可以删除
+		   String sql = "INSERT INTO sys_rightinfo (right_name, parent_id,status) VALUES ('" + rightName + "','"
+					+ column+ "','2')";
+			sysRightinfoInfoMapper.insert(sql);
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "添加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtlis.error(FAILURE_CODE, "添加失败");
+		}
 	}
 
 	// 家族产业后台文章分类删除
@@ -355,31 +371,36 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 	 * @return
 	 */
 	@Override
-	public CulturePage backstageCommonality(String userId, Integer style, Integer pageNow, Integer pageSize,
+	public Response<CulturePage> backstageCommonality(String userId, Integer style, Integer pageNow, Integer pageSize,
 			String areaCode, String familyName,String type) {
-		// 查询出姓氏ID
-		String sql = "SELECT c.* FROM sys_constant c WHERE constant_name='" + familyName + "'";
-		SysConstantInfo constantInfo = sysConstantInfoMapper.findOne(sql);
-		// 开始分页
-		PageHelper.startPage(pageNow, pageSize);
-		// status状态1是发表 状态0是草稿
-			sql = "SELECT w.* FROM sys_writing w WHERE w.publisher='"
-					+ userId + "' AND w.region='" + areaCode + "' AND w.style='" + style + "' AND '"
-					+ constantInfo.getConstantCode() + "'=w.family AND w.type='"+type+"' ORDER BY  publish_time DESC";
-		List<SysWritingInfo> findList = sysWritingInfoMapper.findList(sql);
-		// 查出状态不为2的 状态   1是发表 状态0是草稿 状态2不能显示表示已删除
-		List<SysWritingInfo> list = new ArrayList<SysWritingInfo>();
-		for (SysWritingInfo sysWritingInfo : findList) {
-			if(sysWritingInfo.getStatus()!=2) {
-				list.add(sysWritingInfo);
+		try {
+			// 查询出姓氏ID
+			String sql = "SELECT c.* FROM sys_constant c WHERE constant_name='" + familyName + "'";
+			SysConstantInfo constantInfo = sysConstantInfoMapper.findOne(sql);
+			// 开始分页
+			PageHelper.startPage(pageNow, pageSize);
+			// status状态1是发表 状态0是草稿
+				sql = "SELECT w.* FROM sys_writing w WHERE w.publisher='"
+						+ userId + "' AND w.region='" + areaCode + "' AND w.style='" + style + "' AND '"
+						+ constantInfo.getConstantCode() + "'=w.family AND w.type='"+type+"' ORDER BY  publish_time DESC";
+			List<SysWritingInfo> findList = sysWritingInfoMapper.findList(sql);
+			// 查出状态不为2的 状态   1是发表 状态0是草稿 状态2不能显示表示已删除
+			List<SysWritingInfo> list = new ArrayList<SysWritingInfo>();
+			for (SysWritingInfo sysWritingInfo : findList) {
+				if(sysWritingInfo.getStatus()!=2) {
+					list.add(sysWritingInfo);
+				}
 			}
+			// 转换成pageInfo对象
+			PageInfo<SysWritingInfo> pageInfo = new PageInfo<>(list);
+			CulturePage culturePage = new CulturePage();
+			culturePage.setTotal(pageInfo.getTotal());// 总的信息条数
+			culturePage.setRows(pageInfo.getList());// 一页信息
+			return ResponseUtlis.success(culturePage);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
-		// 转换成pageInfo对象
-		PageInfo<SysWritingInfo> pageInfo = new PageInfo<>(list);
-		CulturePage culturePage = new CulturePage();
-		culturePage.setTotal(pageInfo.getTotal());// 总的信息条数
-		culturePage.setRows(pageInfo.getList());// 一页信息
-		return culturePage;
 	}
 
 	/**
@@ -389,20 +410,25 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 	 * @return
 	 */
 	@Override
-	public FamilyIndustry backstage(String writingsId) {
-		// 详情
-		String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
-		FamilyIndustry familyIndustry = familyIndustryMapper.findOne(sql);
-		// 根据用户Id查出用户名
-		sql = "SELECT u.* FROM sys_user_reg u WHERE u.user_id='" + familyIndustry.getPublisher() + "'";
-		SysUserRegInof userRegInof = sysUserRegInofMapper.findOne(sql);
-		// 根据地区Id查出地区名
-		sql = "SELECT a.* FROM sys_area a WHERE a.area_code='" + familyIndustry.getRegion() + "'";
-		SysAreaInfo sysAreaInfo = sysAreaInfoMapper.findOne(sql);
-		// 把用户名和地址名称放入到FamilyIndustry
-		familyIndustry.setConstantName(userRegInof.getRealName());
-		familyIndustry.setAreaName(sysAreaInfo.getAreaName());
-		return familyIndustry;
+	public Response<FamilyIndustry> backstage(String writingsId) {
+		try {
+			// 详情
+			String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
+			FamilyIndustry familyIndustry = familyIndustryMapper.findOne(sql);
+			// 根据用户Id查出用户名
+			sql = "SELECT u.* FROM sys_user_reg u WHERE u.user_id='" + familyIndustry.getPublisher() + "'";
+			SysUserRegInof userRegInof = sysUserRegInofMapper.findOne(sql);
+			// 根据地区Id查出地区名
+			sql = "SELECT a.* FROM sys_area a WHERE a.area_code='" + familyIndustry.getRegion() + "'";
+			SysAreaInfo sysAreaInfo = sysAreaInfoMapper.findOne(sql);
+			// 把用户名和地址名称放入到FamilyIndustry
+			familyIndustry.setConstantName(userRegInof.getRealName());
+			familyIndustry.setAreaName(sysAreaInfo.getAreaName());
+			return ResponseUtlis.success(familyIndustry);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtlis.error(FAILURE_CODE, "查询详情失败");
+		}
 	}
 
 	/**

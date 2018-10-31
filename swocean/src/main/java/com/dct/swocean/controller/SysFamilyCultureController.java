@@ -1,9 +1,8 @@
 package com.dct.swocean.controller;
 
 
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/civilization")
+@CrossOrigin(origins = "*") // 跨域
 public class SysFamilyCultureController {
 
 	@Autowired
@@ -37,10 +37,7 @@ public class SysFamilyCultureController {
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
 			@RequestParam(value = "type", defaultValue = "05") String type,
-			@RequestParam(value = "status", defaultValue = "1") Integer status,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(value = "status", defaultValue = "1") Integer status) {
 		 Response<CulturePage> culture = sysFamilyCultureService.culture(userId, style, pageNow, pageSize, areaCode, familyName,status,type);
 		return culture;
 	}
@@ -54,10 +51,7 @@ public class SysFamilyCultureController {
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
 			@RequestParam(value = "type", defaultValue = "05") String type,
-			@RequestParam(value = "status", defaultValue = "0") Integer status,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(value = "status", defaultValue = "0") Integer status) {
 		Response<CulturePage> culturePublish = sysFamilyCultureService.culturePublish(userId, column, areaCode, familyName,pageNow,pageSize,type,status);
 		return culturePublish;
 	}
@@ -65,10 +59,7 @@ public class SysFamilyCultureController {
 	// 前台草稿详情
 	@RequestMapping(value = "/detailsPublish", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<SysWritingInfo> detailsPublish(@RequestParam("writingsId") String writingsId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> detailsPublish(@RequestParam("writingsId") String writingsId) {
 		Response<SysWritingInfo> detailsPublish = sysFamilyCultureService.detailsPublish(writingsId);
 		return detailsPublish;
 	}
@@ -76,10 +67,7 @@ public class SysFamilyCultureController {
 	// 前台草稿修改页面
 	@RequestMapping(value = "/updatePublish", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<SysWritingInfo> updatePublish(@RequestParam("writingsId") String writingsId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> updatePublish(@RequestParam("writingsId") String writingsId) {
 		Response<SysWritingInfo> detailsPublish = sysFamilyCultureService.detailsPublish(writingsId);
 		return detailsPublish;
 	}
@@ -91,10 +79,8 @@ public class SysFamilyCultureController {
 			@RequestParam("style") Integer style, 
 			@RequestParam("pic") String pic, 
 			@RequestParam("synopsis") String synopsis,//简介
-			@RequestParam("status") Integer status, // 状态1是发表 状态0是草稿 状态2不能显示表示已删除
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("status") Integer status // 状态1是发表 状态0是草稿 状态2不能显示表示已删除
+            ) {
 		// 插入数据
 		Response<SysWritingInfo> amendPublish = sysFamilyCultureService.amendPublish(writingsId, title, text, style, pic, status,synopsis);
 		return amendPublish;
@@ -102,9 +88,7 @@ public class SysFamilyCultureController {
 
 	//前台家族文化发表页面草稿删除
 	@RequestMapping(value = "/deletePublish", method = RequestMethod.POST)
-	public Response<SysWritingInfo> deletePublish (@RequestParam("writingsId")String writingsId, HttpServletResponse res){
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> deletePublish (@RequestParam("writingsId")String writingsId){
 		Response<SysWritingInfo> details = sysFamilyCultureService.deletePublish(writingsId);
 		return details;
 	}
@@ -118,10 +102,7 @@ public class SysFamilyCultureController {
 			@RequestParam("familyName") String familyName, // 姓氏
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam("pic") String pic, @RequestParam("status") Integer status,
-			@RequestParam("type") Integer type,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("type") Integer type) {
 		// 插入数据
 		Response<SysWritingInfo> publishData = sysFamilyCultureService.publishData(userId, title, text, style,synopsis,familyName,areaCode, pic, status,type);
 		return publishData;
@@ -131,9 +112,7 @@ public class SysFamilyCultureController {
 	@RequestMapping(value = "/collection", method = RequestMethod.POST)
 	// 文章ID writingsId
 	public Response<SysWritingInfo> collection(@RequestParam("writingsId") String writingsId,
-			@RequestParam("userId") String userId,HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("userId") String userId) {
 		//收藏
 	    Response<SysWritingInfo> response = sysFamilyCultureService.insertCollection(writingsId,userId);
 		return response;
@@ -143,9 +122,7 @@ public class SysFamilyCultureController {
 	@RequestMapping(value = "/like", method = RequestMethod.POST)
 	@ApiOperation(value = "前台增加点赞")
 	// 文章ID writingsId
-	public Response<SysWritingInfo> like(@RequestParam("writingsId") String writingsId, HttpServletResponse res) {
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> like(@RequestParam("writingsId") String writingsId) {
 			Response<SysWritingInfo> insertLike = sysFamilyCultureService.insertLike(writingsId);
 			return insertLike;
 	}
@@ -154,10 +131,7 @@ public class SysFamilyCultureController {
 	@RequestMapping(value = "/particulars", method = RequestMethod.POST)
 	@ApiOperation(value = "前台查看详情增加查看数")
 	// 文章ID writingsId
-	public Response<FamilyIndustry> particulars(@RequestParam("writingsId") String writingsId,
-			HttpServletResponse res) {
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<FamilyIndustry> particulars(@RequestParam("writingsId") String writingsId) {
 			Response<FamilyIndustry> selectParticulars = sysFamilyCultureService.selectParticulars(writingsId);
 			return selectParticulars;
 	}
@@ -165,10 +139,7 @@ public class SysFamilyCultureController {
 	
 	// 家族文化后台文章分类查询
 	@RequestMapping(value = "/typeQuerying", method = RequestMethod.POST)
-	public Response<SysRightinfoInfo> typeQuerying(@RequestParam("parentId") Integer parentId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysRightinfoInfo> typeQuerying(@RequestParam("parentId") Integer parentId) {
 		Response<SysRightinfoInfo> addClassify = sysFamilyCultureService.typeQuerying(parentId);
 		return addClassify;
 	}
@@ -177,19 +148,14 @@ public class SysFamilyCultureController {
 	// 家族文化后台文章分类添加
 	@RequestMapping(value = "/addClassify", method = RequestMethod.POST)
 	public Response<SysRightinfoInfo> addClassify(@RequestParam("column") String column,
-			@RequestParam("rightName") String rightName, HttpServletResponse res) {// 文章分类名称
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("rightName") String rightName) {// 文章分类名称
 			Response<SysRightinfoInfo> addClassify = sysFamilyCultureService.addClassify(column, rightName);
 			return addClassify;
 	}
 
 	// 家族文化后台文章分类删除 style分类的ID
 	@RequestMapping(value = "/deleteClassify", method = RequestMethod.POST)
-	public Response<SysRightinfoInfo> deleteClassify(@RequestParam("rightId") int rightId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysRightinfoInfo> deleteClassify(@RequestParam("rightId") int rightId) {
 		Response<SysRightinfoInfo> response = sysFamilyCultureService.deleteClassify(rightId);
 		return response;
 	}
@@ -202,9 +168,7 @@ public class SysFamilyCultureController {
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
-			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize, HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize) {
 		Response<CulturePage> backstageCommonality = sysFamilyCultureService.backstageCommonality(userId, style, pageNow, pageSize, areaCode, familyName);
 		return backstageCommonality;
 	}
@@ -215,9 +179,7 @@ public class SysFamilyCultureController {
 	// 家族文化后台查看详情
 	@RequestMapping(value = "/backstage", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<FamilyIndustry> backstage(@RequestParam("writingsId") String writingsId, HttpServletResponse res) {
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<FamilyIndustry> backstage(@RequestParam("writingsId") String writingsId) {
 			Response<FamilyIndustry> backstage = sysFamilyCultureService.backstage(writingsId);
 			return backstage;
 	}
@@ -231,10 +193,7 @@ public class SysFamilyCultureController {
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
 			@RequestParam(value = "type", defaultValue = "05") String type,
-			@RequestParam(value = "status", defaultValue = "0") Integer status,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(value = "status", defaultValue = "0") Integer status) {
 		 Response<CulturePage> culturePublish = sysFamilyCultureService.culturePublish(userId, column, areaCode, familyName,pageNow,pageSize,type,status);
 		return culturePublish;
 	}
@@ -242,9 +201,7 @@ public class SysFamilyCultureController {
 	// 后台草稿详情
 	@RequestMapping(value = "/offspring", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<SysWritingInfo> offspring(@RequestParam("writingsId") String writingsId, HttpServletResponse res) {
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> offspring(@RequestParam("writingsId") String writingsId) {
 			Response<SysWritingInfo> detailsPublish = sysFamilyCultureService.detailsPublish(writingsId);
 			return detailsPublish;
 	}
@@ -252,10 +209,7 @@ public class SysFamilyCultureController {
 	// 后台草稿修改页面
 	@RequestMapping(value = "/offspringPublish", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<SysWritingInfo> offspringPublish(@RequestParam("writingsId") String writingsId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> offspringPublish(@RequestParam("writingsId") String writingsId) {
 		Response<SysWritingInfo> detailsPublish = sysFamilyCultureService.detailsPublish(writingsId);
 		return detailsPublish;
 	}
@@ -266,10 +220,8 @@ public class SysFamilyCultureController {
 			@RequestParam("title") String title, @RequestParam("text") String text,
 			@RequestParam("style") Integer style, @RequestParam("pic") String pic,
 			@RequestParam("synopsis") String synopsis, // 简介
-			@RequestParam("status") Integer status, // 状态1是发表 状态0是草稿 状态2不能显示表示已删除
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("status") Integer status// 状态1是发表 状态0是草稿 状态2不能显示表示已删除
+     ) {
 		// 插入数据
 		Response<SysWritingInfo> amendPublish = sysFamilyCultureService.amendPublish(writingsId, title, text, style, pic,
 				status, synopsis);
@@ -278,9 +230,7 @@ public class SysFamilyCultureController {
 	
 	//后台家族文化发表页面草稿删除
 		@RequestMapping(value = "/deleteDraft", method = RequestMethod.POST)
-		public Response<SysWritingInfo> deleteDraft (@RequestParam("writingsId")String writingsId, HttpServletResponse res){
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+		public Response<SysWritingInfo> deleteDraft (@RequestParam("writingsId")String writingsId){
 			Response<SysWritingInfo> details = sysFamilyCultureService.deletePublish(writingsId);
 			return details;
 		}
@@ -293,10 +243,7 @@ public class SysFamilyCultureController {
 			@RequestParam("synopsis") String synopsis,@RequestParam("familyName") String familyName, // 姓氏
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID,
 			@RequestParam("pic") String pic, @RequestParam("status") Integer status,
-			@RequestParam("type") Integer type,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("type") Integer type) {
 		// 插入数据
 		Response<SysWritingInfo> publishData = sysFamilyCultureService.publishData(userId, title, text, style, synopsis,familyName,areaCode ,pic, status,type);
 		return publishData;
@@ -305,9 +252,7 @@ public class SysFamilyCultureController {
 	// 家族文化后台进入修改页面
 	@RequestMapping(value = "/amend", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<SysWritingInfo> amend(@RequestParam("writingsId") String writingsId, HttpServletResponse res) {
-			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysWritingInfo> amend(@RequestParam("writingsId") String writingsId) {
 			Response<SysWritingInfo> amend = sysFamilyCultureService.amend(writingsId);
 			return amend;
 	}
@@ -319,9 +264,7 @@ public class SysFamilyCultureController {
 			@RequestParam("title") String title, @RequestParam("text") String text,
 			@RequestParam("style") Integer style, @RequestParam("pic") String pic,
 			@RequestParam("synopsis") String synopsis,//简介
-			@RequestParam("status") Integer status, HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("status") Integer status) {
 		// 修改数据
 		Response<SysWritingInfo> amendPublish=sysFamilyCultureService.amendPublish(writingsId, title, text, style, pic, status,synopsis);
 		return amendPublish;
