@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
-import com.dct.swocean.common.FamilyIndustry;
 import com.dct.swocean.common.FamilyOrganization;
 import com.dct.swocean.common.FastDFSClient;
 import com.dct.swocean.dao.FamilyOrganizationMapper;
@@ -39,6 +38,11 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 	@Autowired
 	private FamilyOrganizationMapper familyOrganizationMapper;
 	
+	//返回状态码 成功 SUCCESSFUL_CODE
+	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;
+	//返回状态码 失败 FAILURE_CODE
+	private Integer FAILURE_CODE=ConstantClassField.FAILURE_CODE;
+	
 	//家族组织机构后台文章分类查询
 	@Override
 	public Response<SysRightinfoInfo> typeQuerying(Integer parentId) {
@@ -48,7 +52,7 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			return ResponseUtlis.success(findList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	}
 	
@@ -60,10 +64,10 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			String sql = "INSERT INTO sys_rightinfo (right_name, parent_id,status) VALUES ('" + rightName + "','" + column
 					+ "','"+status+"')";
 			sysRightinfoInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "添加成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "添加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "添加失败");
+			return ResponseUtlis.error(FAILURE_CODE, "添加失败");
 		}
 		
 	}
@@ -79,13 +83,13 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			if (rightinfoInfo.getStatus() == 2) {
 				sql = "DELETE FROM sys_rightinfo WHERE right_id = '" + rightId + "';";
 				sysRightinfoInfoMapper.delete(sql);
-				return ResponseUtlis.error(200, "删除成功");
+				return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 			}else {
 				return ResponseUtlis.error(401, "这个分类不能删除");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 
@@ -108,10 +112,10 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			+ style + "','"+pic+"','"+ format + "','" + userId + "','"+celebrityName+"','" + synopsis + "','" + constantInfo.getConstantCode() + "',"
 					+ "'"+areaCode+"','"+status+"')";
 			sysCelebrityInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "添加成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "添加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "添加失败");
+			return ResponseUtlis.error(FAILURE_CODE, "添加失败");
 		}
 
 	}
@@ -126,7 +130,7 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			return ResponseUtlis.success(findOne);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 		
 	}
@@ -138,10 +142,10 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			// 删除 修改状态 转态1发表2已删除
 			String sql="UPDATE `sys_celebrity` SET `status`='2' WHERE (`celebrity_id`='"+celebrityId+"')";
 			sysCelebrityInfoMapper.update(sql);
-			return ResponseUtlis.error(200, "删除成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 
@@ -162,7 +166,7 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 			return ResponseUtlis.success(culturePage);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	
 	}

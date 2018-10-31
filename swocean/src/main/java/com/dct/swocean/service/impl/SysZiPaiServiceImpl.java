@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.dao.SysCollectInfoMapper;
@@ -23,6 +24,7 @@ import com.dct.swocean.service.SysZiPaiService;
 import com.dct.swocean.util.DateUtil;
 import com.dct.swocean.util.Response;
 import com.dct.swocean.util.ResponseUtlis;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
@@ -40,6 +42,13 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 	@Autowired
 	private SysFatherInfoMapper sysFatherInfoMapper;
 
+	//返回状态码 成功 200
+	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;
+	//返回状态码 失败 500
+	private Integer FAILURE_CODE=ConstantClassField.FAILURE_CODE;
+	//返回状态码 错误 400
+	private Integer ERRO_CODE=ConstantClassField.ERRO_CODE;
+	
 	@Override
 	public List<SysZipaiInfo> selectByFamilyName(String famliyname) {
 		String sql = "select * from sys_zipai,sys_constant where constant_name=" + "'" + famliyname + "'";
@@ -65,14 +74,13 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 		// 家族字派信息查询
 			@Override
 			public Response<CulturePage> culture(String userId, Integer status, Integer pageNow, Integer pageSize, String areaCode,
-					String familyName) {
+					Integer family) {
 			try {
-				// 查询出姓氏ID
-				String sql = "SELECT c.* FROM sys_constant c WHERE constant_name='" + familyName + "'";
-				SysConstantInfo constantInfo = sysConstantInfoMapper.findOne(sql);
+				// 开始分页
+				PageHelper.startPage(pageNow, pageSize);
 				// 查询信息
-				sql = "SELECT z.* FROM sys_zipai z WHERE z.region='" + areaCode + "' AND z.surname='"
-						+ constantInfo.getConstantCode() + "' AND z.status='" + status + "'";
+				String sql = "SELECT z.* FROM sys_zipai z WHERE z.region='" + areaCode + "' AND z.surname='"
+						+ family + "' AND z.status='" + status + "'";
 				List<SysZipaiInfo> findList = sysZipaiInfoMapper.findList(sql);
 				// 转换成pageInfo对象
 				PageInfo<SysZipaiInfo> pageInfo = new PageInfo<>(findList);
@@ -82,28 +90,25 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 				return ResponseUtlis.success(culturePage);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return ResponseUtlis.error(500, "查询失败");
+				return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 			}
 
 			}
 
 			//家族字派发表信息
 			@Override
-			public Response<SysZipaiInfo> publish(String userId, String location, String ancestorsName, String zipaiOrder, String familyName,
+			public Response<SysZipaiInfo> publish(String userId, String location, String ancestorsName, String zipaiOrder, Integer family,
 					String areaCode, String status) {
 				try {
 					//生成ID
 					String zipaiId = String.valueOf(IDUtils.genId());
 					//生成时间
 					Timestamp format = DateUtil.format(new Date());
-					// 查询出姓氏ID
-					String sql = "SELECT c.* FROM sys_constant c WHERE constant_name='" + familyName + "'";
-					SysConstantInfo constantInfo = sysConstantInfoMapper.findOne(sql);
 				    //储存数据
-					sql="INSERT INTO sys_zipai (`zipai_id`,`zipai_order`,`surname`,`region`,`ancestors_name`,`creator`,`create_time`,`status`,`like`,`comment`,`relay`,`collection`,`location`) VALUES ("
+					String sql="INSERT INTO sys_zipai (`zipai_id`,`zipai_order`,`surname`,`region`,`ancestors_name`,`creator`,`create_time`,`status`,`like`,`comment`,`relay`,`collection`,`location`) VALUES ("
 							+ "'"+zipaiId+"',"
 							+ "'"+zipaiOrder+"',"
-							+ "'"+constantInfo.getConstantCode()+"',"
+							+ "'"+family+"',"
 							+ "'"+areaCode+"',"
 							+ "'"+ancestorsName+"',"
 							+ "'"+userId+"',"
@@ -115,23 +120,36 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 							+ "'"+0+"',"
 							+ "'"+location+"')";
 					sysZipaiInfoMapper.insert(sql);
-					return ResponseUtlis.error(200, "发表成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "发表成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "发表失败");
+					return ResponseUtlis.error(FAILURE_CODE, "发表失败");
 				}
 			}
 
 			//搜索
+			@SuppressWarnings("unused")
 			@Override
-			public Response<SysZipaiInfo> search(String zipaiOrder) {
+			public Response<CulturePage> search(String zipaiOrder,Integer pageNow, Integer pageSize) {
 				try {
-					String sql="SELECT z.* FROM sys_zipai z WHERE zipai_order LIKE '%"+zipaiOrder+"%'";
+					// 开始分页
+					PageHelper.startPage(pageNow, pageSize);
+					String sql=null;
+					if(zipaiOrder.equals("") && zipaiOrder==null) {
+						return ResponseUtlis.error(ERRO_CODE, "不能为空");
+					}else {
+						sql="SELECT z.* FROM sys_zipai z WHERE zipai_order LIKE '%"+zipaiOrder+"%'";
+					}
 					List<SysZipaiInfo> list = sysZipaiInfoMapper.findList(sql);
-					return ResponseUtlis.success(list);
+					// 转换成pageInfo对象
+					PageInfo<SysZipaiInfo> pageInfo = new PageInfo<>(list);
+					CulturePage culturePage = new CulturePage();
+					culturePage.setTotal(pageInfo.getTotal());// 总的信息条数
+					culturePage.setRows(pageInfo.getList());// 一页信息
+					return ResponseUtlis.success(culturePage);
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "搜索失败");
+					return ResponseUtlis.error(FAILURE_CODE, "搜索失败");
 				}
 			}
 
@@ -144,7 +162,7 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 					return ResponseUtlis.success(sysZipaiInfo);
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "查询失败");
+					return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 				}
 			}
 
@@ -154,24 +172,21 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 				try {
 					String sql="DELETE FROM sys_zipai WHERE zipai_id = '" + zipaiId + "'";
 					sysZipaiInfoMapper.delete(sql);
-					return ResponseUtlis.error(200, "删除成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "删除失败");
+					return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 				}
 			}
 
 		// 家族字派后台页面信息查询
 		@Override
 		public Response<CulturePage> backstage(String userId, Integer pageNow, Integer pageSize, String areaCode,
-				String familyName) {
+				Integer family) {
 			try {
-				// 查询出姓氏ID
-				String sql = "SELECT c.* FROM sys_constant c WHERE constant_name='" + familyName + "'";
-				SysConstantInfo constantInfo = sysConstantInfoMapper.findOne(sql);
 				// 查询信息
-				sql = "SELECT z.* FROM sys_zipai z WHERE z.region='" + areaCode + "' AND z.surname='"
-						+ constantInfo.getConstantCode() + "'";
+				String sql = "SELECT z.* FROM sys_zipai z WHERE z.region='" + areaCode + "' AND z.surname='"
+						+ family + "'";
 				List<SysZipaiInfo> findList = sysZipaiInfoMapper.findList(sql);
 				// 查出状态不为2的 状态1是发表 状态0是草稿 状态2不能显示表示已删除
 				List<SysZipaiInfo> list = new ArrayList<SysZipaiInfo>();
@@ -188,7 +203,7 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 				return ResponseUtlis.success(culturePage);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return ResponseUtlis.error(500, "查询失败");
+				return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 			}
 
 		}
@@ -205,10 +220,10 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 						sql="DELETE FROM sys_zipai WHERE zipai_id = '" + zipaiId + "'";
 						sysZipaiInfoMapper.delete(sql);
 					}
-					return ResponseUtlis.error(200, "删除成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "删除失败");
+					return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 				}
 			}
 
@@ -231,10 +246,10 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 					sql="INSERT INTO sys_collect (`collect_id`,`user_id`,`writings_id`,`time`) VALUES ('"
 					+collectId+"','"+userId+"','"+zipaiId+"','"+format+"')";
 					sysCollectInfoMapper.insert(sql);
-					return ResponseUtlis.error(200, "收藏成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "收藏成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "收藏失败");
+					return ResponseUtlis.error(FAILURE_CODE, "收藏失败");
 				}
 			}
 
@@ -249,10 +264,10 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 					int like = findOne.getLike() + 1;
 					sql = " UPDATE sys_zipai z SET z.like='" + like + "' WHERE z.zipai_id='" + zipaiId + "'";
 					sysZipaiInfoMapper.update(sql);
-					return ResponseUtlis.error(200, "点赞成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "点赞成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "点赞失败");
+					return ResponseUtlis.error(FAILURE_CODE, "点赞失败");
 				}
 			}
 
@@ -267,10 +282,10 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 					int relay = findOne.getRelay() + 1;
 					sql = " UPDATE sys_zipai z SET z.relay='" + relay + "' WHERE z.zipai_id='" + zipaiId + "'";
 					sysZipaiInfoMapper.update(sql);
-					return ResponseUtlis.error(200, "转发成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "转发成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "转发失败");
+					return ResponseUtlis.error(FAILURE_CODE, "转发失败");
 				}
 			}
 
@@ -283,7 +298,7 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 						return ResponseUtlis.success(findList);
 					} catch (Exception e) {
 						e.printStackTrace();
-						return ResponseUtlis.error(500, "进入评论失败");
+						return ResponseUtlis.error(FAILURE_CODE, "进入评论失败");
 					}
 				}
 
@@ -296,7 +311,7 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 					return ResponseUtlis.success(findList);
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "显示失败");
+					return ResponseUtlis.error(FAILURE_CODE, "显示失败");
 				}
 			}
 				
@@ -319,10 +334,10 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 							+ "'"+zipaiId+"',"
 							+ "'"+fatherId+"')";
 					sysCommentInfoMapper.insert(sql);
-					return ResponseUtlis.error(200, "评论成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "评论成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "评论失败");
+					return ResponseUtlis.error(FAILURE_CODE, "评论失败");
 				}
 			}
 
@@ -338,10 +353,62 @@ public class SysZiPaiServiceImpl implements SysZiPaiService {
 							+ "'"+format+"',"
 							+ "'"+text+"')";
 					sysFatherInfoMapper.insert(sql);
-					return ResponseUtlis.error(200, "评论成功");
+					return ResponseUtlis.error(SUCCESSFUL_CODE, "评论成功");
 				} catch (Exception e) {
 					e.printStackTrace();
-					return ResponseUtlis.error(500, "评论失败");
+					return ResponseUtlis.error(FAILURE_CODE, "评论失败");
+				}
+			}
+
+			//**************************省级页面******************************
+			
+			//省级地区选择下拉框
+			@Override
+			public Response<SysConstantInfo> county(String areaCode, String family) {
+				try {
+					String sql="SELECT " + 
+							"c.* " + 
+							"FROM " + 
+							"sys_area AS a ," + 
+							"sys_constant AS c " + 
+							"WHERE " + 
+							"a.region = '"+areaCode+"' AND " + 
+							"a.surname = '"+family+"' AND " + 
+							"a.area_code = c.constant_code";
+					List<SysConstantInfo> findList = sysConstantInfoMapper.findList(sql);
+					return ResponseUtlis.success(findList);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ResponseUtlis.error(FAILURE_CODE, "查询失败");
+				}
+			}
+
+			//省级地区选择下拉框地区字派查询
+			@Override
+			public Response<CulturePage> selectCounty(String areaCode, String family, Integer status, Integer pageNow, Integer pageSize) {
+				try {
+					// 开始分页
+					PageHelper.startPage(pageNow, pageSize);
+					String sql="SELECT " + 
+							"z.* " + 
+							"FROM " + 
+							"sys_zipai AS z " + 
+							"WHERE " + 
+							"z.region = '"+areaCode+"' AND " + 
+							"z.surname = '"+family+"' AND " + 
+							"z.`status` = '"+status+"' " + 
+							"ORDER BY " + 
+							"z.create_time DESC";
+					List<SysZipaiInfo> findList = sysZipaiInfoMapper.findList(sql);
+					// 转换成pageInfo对象
+					PageInfo<SysZipaiInfo> pageInfo = new PageInfo<>(findList);
+					CulturePage culturePage = new CulturePage();
+					culturePage.setTotal(pageInfo.getTotal());// 总的信息条数
+					culturePage.setRows(pageInfo.getList());// 一页信息
+					return ResponseUtlis.success(culturePage);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 				}
 			}
 

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
-import com.dct.swocean.common.FastDFSClient;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.dao.FamilyIndustryMapper;
 import com.dct.swocean.dao.SysAreaInfoMapper;
@@ -25,9 +24,7 @@ import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysRightinfoInfo;
 import com.dct.swocean.entity.SysUserRegInof;
 import com.dct.swocean.entity.SysWritingInfo;
-import com.dct.swocean.entity.SysZipaiInfo;
 import com.dct.swocean.service.SysFamilyBusinessService;
-import com.dct.swocean.service.SysIndustryService;
 import com.dct.swocean.util.DateUtil;
 import com.dct.swocean.util.Response;
 import com.dct.swocean.util.ResponseUtlis;
@@ -57,6 +54,13 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 	@Autowired
 	private SysCollectInfoMapper sysCollectInfoMapper;
 
+	//返回状态码 成功 200
+	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;
+	//返回状态码 失败 500
+	private Integer FAILURE_CODE=ConstantClassField.FAILURE_CODE;
+	//返回状态码 错误 400
+	private Integer ERRO_CODE=ConstantClassField.ERRO_CODE;
+	
 	/**
 	 * 私有财产 公有财产 前台
 	 * 
@@ -97,7 +101,7 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			return ResponseUtlis.success(culturePage);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 
 	}
@@ -132,7 +136,7 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			return ResponseUtlis.success(culturePage);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	}
 	
@@ -151,10 +155,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 		try {
 		 String	sql = "DELETE FROM sys_writing WHERE writings_id = '" + writingsId + "'";
 			sysRightinfoInfoMapper.delete(sql);
-			return ResponseUtlis.error(200, "删除成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 
@@ -177,10 +181,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			sql="INSERT INTO sys_collect (`collect_id`,`user_id`,`writings_id`,`time`) VALUES ('"
 			+collectId+"','"+userId+"','"+writingsId+"','"+format+"')";
 			sysCollectInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "收藏成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "收藏成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "收藏失败");
+			return ResponseUtlis.error(FAILURE_CODE, "收藏失败");
 		}
 	}
 	
@@ -220,7 +224,7 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			return ResponseUtlis.success(findOne);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 		
 
@@ -235,7 +239,7 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			return ResponseUtlis.success(findList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	}
 	
@@ -265,13 +269,13 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			if (rightinfoInfo.getStatus() == 2) {
 				sql = "DELETE FROM sys_rightinfo WHERE right_name = '" + rightName + "'";
 				sysRightinfoInfoMapper.delete(sql);
-				return ResponseUtlis.error(200, "删除成功");
+				return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 			}else {
-				return ResponseUtlis.error(401, "这个分类不能删除");
+				return ResponseUtlis.error(ERRO_CODE, "这个分类不能删除");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 
@@ -333,10 +337,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 					+"'"+location+"',"
 					+ "'"+type+"')";
 			sysWritingInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "发表成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "发表成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "发表失败");
+			return ResponseUtlis.error(FAILURE_CODE, "发表失败");
 		}
 	}
 	// ************************************************************
@@ -417,10 +421,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 				sql="DELETE FROM sys_writing WHERE writings_id = '" + writingsId + "'";
 				sysWritingInfoMapper.delete(sql);
 			}
-			return ResponseUtlis.error(200, "删除成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 		
 	}
@@ -437,7 +441,7 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			return ResponseUtlis.success(writingInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "跳转修改页面失败");
+			return ResponseUtlis.error(FAILURE_CODE, "跳转修改页面失败");
 		}
 	}
 	/**
@@ -462,10 +466,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			//修改SysWritingInfo
 			String sql="update sys_writing set title='"+title+"',summary='"+synopsis+"',text='"+text+"',style='"+style+"',pic='"+path+"',status='"+status+"',location='"+location+"'  WHERE writings_id='"+writingsId+"'";
 			sysWritingInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "修改成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "修改成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "修改失败");
+			return ResponseUtlis.error(FAILURE_CODE, "修改失败");
 		}
 		
 	}
@@ -475,10 +479,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 		try {
 			String sql="DELETE FROM sys_writing WHERE writings_id = '" + writingsId + "'";
 	     	sysWritingInfoMapper.delete(sql);
-			return ResponseUtlis.error(200, "删除成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 }
