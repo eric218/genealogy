@@ -34,6 +34,7 @@ import com.dct.swocean.service.SysFamilyCultureService;
 import com.dct.swocean.util.DateUtil;
 import com.dct.swocean.util.Response;
 import com.dct.swocean.util.ResponseUtlis;
+import com.dct.swocean.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -96,7 +97,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 	}
 
 	/**
-	 * 进入前台家族产业发表页面显示草稿信息
+	 * 进入前台家族文化发表页面显示草稿信息
 	 * 
 	 * @param userId     用户ID
 	 * @param column     栏目
@@ -137,6 +138,8 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			SysWritingInfo findOne = sysWritingInfoMapper.findOne(sql);
 			return ResponseUtlis.success(findOne);
 		} catch (Exception e) {
+			
+			
 			e.printStackTrace();
 			return ResponseUtlis.error(500, "查询失败");
 		}
@@ -170,10 +173,11 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 	public Response<SysWritingInfo> publishData(String userId, String title, String text, Integer style,String synopsis, String familyName, String areaCode,String pic,
 			Integer status,Integer type) {
 		try {
-			//将图片放入到FastDFS中
-			FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
+			//将图片放入到FastDFS中生成地址
+			/*FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
 			String path = fastDFSClient.uploadFile(pic);
-			path=ConstantClassField.IP_FAST_DFS+path;
+			path=ConstantClassField.IP_FAST_DFS+path;*/
+			String path = StringUtils.getPath(pic);
 			//生成ID
 			String writingsId = String.valueOf(IDUtils.genId());
 			//生成时间
@@ -400,7 +404,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 		
 	}
 	//*************************************************************************************************************************************
-	//家族产业后台查看详情
+	//家族文化后台查看详情
 	@Override
 	public Response<FamilyIndustry> backstage(String writingsId) {
 		try {
@@ -442,9 +446,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 	public Response<SysWritingInfo> amendPublish(String writingsId, String title, String text, Integer style, String pic, Integer status,String synopsis) {
 		try {
 			//将图片放入到FastDFS中
-			FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
+			/*FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
 			String path = fastDFSClient.uploadFile(pic);
-			path=ConstantClassField.IP_FAST_DFS+path;
+			path=ConstantClassField.IP_FAST_DFS+path;*/
+			String path = StringUtils.getPath(pic);
 			//修改SysWritingInfo
 			String  sql="update sys_writing set title='"+title+"',summary='"+synopsis+"',text='"+text+"',style='"+style+"',pic='"+path+"',status='"+status+"' WHERE writings_id='"+writingsId+"'";
 			sysWritingInfoMapper.insert(sql);
@@ -458,13 +463,11 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 	
 	//家族文化后台文章数据删除
 	@Override
-	public Response<SysWritingInfo> deleteData(String writingsId) {
+	public Response<SysWritingInfo> deleteData(String writingsId,Integer status) {
 		try {
-			// 详情
-			String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
-			FamilyIndustry familyIndustry = familyIndustryMapper.findOne(sql);
 			//判断status状态为几           1是发表 状态0是草稿 状态2不能显示表示已删除
-			if(familyIndustry.getStatus()==1) {
+			String sql=null;
+			if(status==1) {
 				sql="UPDATE `sys_writing` SET `status`='2' WHERE (`writings_id`='"+writingsId+"')";
 				sysWritingInfoMapper.update(sql);
 			}else {
@@ -476,7 +479,6 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			e.printStackTrace();
 			return ResponseUtlis.error(500, "删除失败");
 		}
-
 	}
 
 	

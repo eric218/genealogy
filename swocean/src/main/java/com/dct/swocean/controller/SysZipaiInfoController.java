@@ -10,14 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.entity.SysFatherInfo;
-import com.dct.swocean.entity.SysWritingInfo;
 import com.dct.swocean.entity.SysZipaiInfo;
 import com.dct.swocean.entity.sysCommentInfo;
 import com.dct.swocean.service.SysZiPaiService;
 import com.dct.swocean.util.Response;
-import com.dct.swocean.util.ResponseUtlis;
 
-import io.swagger.annotations.ApiOperation;
 
 /**
  * 
@@ -25,7 +22,6 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/culture")
-@SuppressWarnings("unchecked")
 public class SysZipaiInfoController {
 	@Autowired
 	private SysZiPaiService sysZipaiInfoService;

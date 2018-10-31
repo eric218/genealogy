@@ -3,6 +3,9 @@ package com.dct.swocean.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.dct.swocean.common.ConstantClassField;
+import com.dct.swocean.common.FastDFSClient;
+
 public class StringUtils
 {
     /**
@@ -53,5 +56,17 @@ public class StringUtils
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(param);
         return m.replaceAll("").trim();
+    }
+    
+    /**
+     * fastDFS图片地址获取全地址
+     * @param pic  上传图片名称 
+     * @return
+     * @throws Exception 
+     */
+    public static String getPath(String pic) throws Exception {
+    	FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
+    	String path = fastDFSClient.uploadFile(pic);
+    	return path = ConstantClassField.IP_FAST_DFS+path.substring(path.lastIndexOf("/")+1);
     }
 }

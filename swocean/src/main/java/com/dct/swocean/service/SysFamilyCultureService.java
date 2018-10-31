@@ -81,6 +81,8 @@ public interface SysFamilyCultureService {
 	 * @param column  栏目
 	 * @param areaCode 地址ID
 	 * @param familyName 姓氏名称
+	 * @param type 发表的类型是文章
+	 * @param status 状态0 表示草稿1表示发表2表示已删除
 	 * @return
 	 */
 	Response<CulturePage> culturePublish(String userId, String column, String areaCode, String familyName,Integer pageNow, Integer pageSize,String type,Integer status);
@@ -156,8 +158,9 @@ public interface SysFamilyCultureService {
 	/**
 	 * 家族文化后台文章数据删除
 	 * @param writingsId 文章ID
+	 * @param status 
 	 */
-	Response<SysWritingInfo> deleteData(String writingsId);
+	Response<SysWritingInfo> deleteData(String writingsId, Integer status);
 
 
 	//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&省级下属县级接口&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

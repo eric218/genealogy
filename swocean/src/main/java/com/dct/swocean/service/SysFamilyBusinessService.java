@@ -80,7 +80,7 @@ public interface SysFamilyBusinessService{
      * 查看详情增加查看数
      * @param writingsId 文章ID
      */
-	FamilyIndustry selectParticulars(String writingsId);
+	Response<FamilyIndustry> selectParticulars(String writingsId);
 
 	
 	/**
@@ -142,8 +142,9 @@ public interface SysFamilyBusinessService{
 	/**
 	 * 家族产业后台删除信息
 	 * @param writingsId 文章ID
+	 * @param status  文章状态1发表2删除0草稿
 	 */
-	Response<SysWritingInfo> deleteData(String writingsId);
+	Response<SysWritingInfo> deleteData(String writingsId, Integer status);
 
 
 	/**

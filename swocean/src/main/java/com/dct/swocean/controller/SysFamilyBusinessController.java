@@ -181,16 +181,11 @@ public class SysFamilyBusinessController {
 	@ApiOperation(value = "前台查看详情增加查看数")
 	// 文章ID writingsId
 	public Response<FamilyIndustry> particulars(@RequestParam("writingsId") String writingsId,HttpServletResponse res) {
-		try {
 			// 跨域解决
 			res.setHeader("Access-Control-Allow-Origin", "*");
 			//增加查看			
-			FamilyIndustry particulars = SysFamilyBusinessService.selectParticulars(writingsId);
-			return ResponseUtlis.success(particulars);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
-		}
+			Response<FamilyIndustry> selectParticulars = SysFamilyBusinessService.selectParticulars(writingsId);
+			return selectParticulars;
 	}
 
 	// 家族产业后台文章分类查询
@@ -269,11 +264,13 @@ public class SysFamilyBusinessController {
 	// 家族产业后台文章数据删除
 	@RequestMapping(value = "/deleteData", method = RequestMethod.POST)
 	// 文章ID writingsId
-	public Response<SysWritingInfo> deleteData(@RequestParam("writingsId") String writingsId,HttpServletResponse res) {
+	public Response<SysWritingInfo> deleteData(@RequestParam("writingsId") String writingsId,
+			@RequestParam("status") Integer status,
+			HttpServletResponse res) {
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//文章数据删除
-		Response<SysWritingInfo> deleteData = SysFamilyBusinessService.deleteData(writingsId);
+		Response<SysWritingInfo> deleteData = SysFamilyBusinessService.deleteData(writingsId,status);
 		return deleteData;
 	}
 	

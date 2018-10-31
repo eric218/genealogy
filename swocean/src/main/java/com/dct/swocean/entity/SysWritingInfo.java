@@ -183,20 +183,4 @@ public class SysWritingInfo implements Serializable {
 		this.collection = collection;
 	}
 
-	public int getExamine() {
-		return examine;
-	}
-
-	public void setExamine(int examine) {
-		this.examine = examine;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
 }

@@ -1,6 +1,5 @@
 package com.dct.swocean.controller;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,8 @@ import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
 import com.dct.swocean.entity.SysRightinfoInfo;
 import com.dct.swocean.entity.SysWritingInfo;
-import com.dct.swocean.entity.SysZipaiInfo;
 import com.dct.swocean.service.SysFamilyCultureService;
 import com.dct.swocean.util.Response;
-import com.dct.swocean.util.ResponseUtlis;
 import io.swagger.annotations.ApiOperation;
 
 
@@ -26,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/civilization")
-@SuppressWarnings("unchecked")
 public class SysFamilyCultureController {
 
 	@Autowired
@@ -223,7 +219,7 @@ public class SysFamilyCultureController {
 			// 跨域解决
 			res.setHeader("Access-Control-Allow-Origin", "*");
 			Response<FamilyIndustry> backstage = sysFamilyCultureService.backstage(writingsId);
-			return ResponseUtlis.success(backstage);
+			return backstage;
 	}
 
 	// 家族文化后台添加 进入添加页面显示草稿
@@ -313,7 +309,7 @@ public class SysFamilyCultureController {
 			// 跨域解决
 			res.setHeader("Access-Control-Allow-Origin", "*");
 			Response<SysWritingInfo> amend = sysFamilyCultureService.amend(writingsId);
-			return ResponseUtlis.success(amend);
+			return amend;
 	}
 	
 	// 家族文化后台进入修改页面后发表或者草稿
@@ -333,8 +329,9 @@ public class SysFamilyCultureController {
 	// 家族文化后台文章数据删除
 		@RequestMapping(value = "/deleteData", method = RequestMethod.POST)
 		// 文章ID writingsId
-		public Response<SysWritingInfo> deleteData(@RequestParam("writingsId") String writingsId) {
-			Response<SysWritingInfo> deleteData = sysFamilyCultureService.deleteData(writingsId);
+		public Response<SysWritingInfo> deleteData(@RequestParam("writingsId") String writingsId,
+				@RequestParam("status") Integer status) {
+			Response<SysWritingInfo> deleteData = sysFamilyCultureService.deleteData(writingsId,status);
 			return deleteData;
 		}
 	

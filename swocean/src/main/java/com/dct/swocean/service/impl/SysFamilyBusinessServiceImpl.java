@@ -31,6 +31,7 @@ import com.dct.swocean.service.SysIndustryService;
 import com.dct.swocean.util.DateUtil;
 import com.dct.swocean.util.Response;
 import com.dct.swocean.util.ResponseUtlis;
+import com.dct.swocean.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -198,24 +199,30 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 
 	// 查看详情增加查看数
 	@Override
-	public FamilyIndustry selectParticulars(String writingsId) {
-		// 查询出查看数 和详情
-		String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
-		FamilyIndustry findOne = familyIndustryMapper.findOne(sql);
-		// 增加查看数
-		int examine = findOne.getExamine() + 1;
-		sql = "UPDATE sys_writing w SET w.examine='" + examine + "' WHERE w.writings_id='" + writingsId + "'";
-		sysAreaInfoMapper.update(sql);
-		// 根据用户Id查出用户名
-		sql = "SELECT u.* FROM sys_user_reg u WHERE u.user_id='" + findOne.getPublisher() + "'";
-		SysUserRegInof userRegInof = sysUserRegInofMapper.findOne(sql);
-		// 根据地区Id查出地区名
-		sql = "SELECT a.* FROM sys_area a WHERE a.area_code='" + findOne.getRegion() + "'";
-		SysAreaInfo sysAreaInfo = sysAreaInfoMapper.findOne(sql);
-		// 把用户名和地址名称放入到FamilyIndustry
-		findOne.setConstantName(userRegInof.getRealName());
-		findOne.setAreaName(sysAreaInfo.getAreaName());
-		return findOne;
+	public Response<FamilyIndustry> selectParticulars(String writingsId) {
+		try {
+			// 查询出查看数 和详情
+			String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
+			FamilyIndustry findOne = familyIndustryMapper.findOne(sql);
+			// 增加查看数
+			int examine = findOne.getExamine() + 1;
+			sql = "UPDATE sys_writing w SET w.examine='" + examine + "' WHERE w.writings_id='" + writingsId + "'";
+			sysAreaInfoMapper.update(sql);
+			// 根据用户Id查出用户名
+			sql = "SELECT u.* FROM sys_user_reg u WHERE u.user_id='" + findOne.getPublisher() + "'";
+			SysUserRegInof userRegInof = sysUserRegInofMapper.findOne(sql);
+			// 根据地区Id查出地区名
+			sql = "SELECT a.* FROM sys_area a WHERE a.area_code='" + findOne.getRegion() + "'";
+			SysAreaInfo sysAreaInfo = sysAreaInfoMapper.findOne(sql);
+			// 把用户名和地址名称放入到FamilyIndustry
+			findOne.setConstantName(userRegInof.getRealName());
+			findOne.setAreaName(sysAreaInfo.getAreaName());
+			return ResponseUtlis.success(findOne);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtlis.error(500, "查询失败");
+		}
+		
 
 	}
 
@@ -285,9 +292,11 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			Integer status,String location,String type) {
 		try {
 			//将图片放入到FastDFS中
-			FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
+		/*	FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
 			String path = fastDFSClient.uploadFile(pic);
-			path=ConstantClassField.IP_FAST_DFS+path;
+			path =ConstantClassField.IP_FAST_DFS+path.substring(path.lastIndexOf("/")+1);
+			path=ConstantClassField.IP_FAST_DFS+path;*/
+			String path = StringUtils.getPath(pic);
 			//生成ID
 			String writings_id = IDUtils.genId() + "";
 			//生成时间
@@ -397,13 +406,11 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 	 * @param writingsId 文章ID
 	 */
 	@Override
-	public Response<SysWritingInfo> deleteData(String writingsId) {
+	public Response<SysWritingInfo> deleteData(String writingsId,Integer status) {
 		try {
-			// 详情
-			String sql = "SELECT w.* FROM sys_writing w WHERE w.writings_id='" + writingsId + "'";
-			FamilyIndustry familyIndustry = familyIndustryMapper.findOne(sql);
+			String sql=null;
 			//判断status状态为几           1是发表 状态0是草稿 状态2不能显示表示已删除
-			if(familyIndustry.getStatus()==1) {
+			if(status==1) {
 				sql="UPDATE `sys_writing` SET `status`='2' WHERE (`writings_id`='"+writingsId+"')";
 				sysWritingInfoMapper.update(sql);
 			}else {
@@ -448,9 +455,10 @@ public class SysFamilyBusinessServiceImpl implements SysFamilyBusinessService {
 			Integer status,String synopsis) {
 		try {
 			//将图片放入到FastDFS中
-			FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
+			/*FastDFSClient fastDFSClient = new FastDFSClient(ConstantClassField.SITE_FAST_DFS);
 			String path = fastDFSClient.uploadFile(pic);
-			path=ConstantClassField.IP_FAST_DFS+path;
+			path = StringUtils.getPath(path);*/
+			String path = StringUtils.getPath(pic);
 			//修改SysWritingInfo
 			String sql="update sys_writing set title='"+title+"',summary='"+synopsis+"',text='"+text+"',style='"+style+"',pic='"+path+"',status='"+status+"',location='"+location+"'  WHERE writings_id='"+writingsId+"'";
 			sysWritingInfoMapper.insert(sql);

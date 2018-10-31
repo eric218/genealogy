@@ -105,10 +105,20 @@ public class HomeInController {
         return ResponseUtlis.success(articlerInfos);
     }
 
+    //查询图腾
+    @RequestMapping("selectFamily")
+    public Response<SysAreaInfo> selectFamily(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode) {
 
-    //图腾
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        SysAreaInfo sysAreaInfo = homeInService.selectByArea(areaCode);
+        return ResponseUtlis.success(sysAreaInfo);
+    }
+
+    //修改图腾
     @RequestMapping("uploadFamily")
-    public Response<SysAreaInfo> upload(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode, @RequestParam(value = "pic") String pic) {
+    public Response<SysAreaInfo> uploadFamily(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode, @RequestParam(value = "pic") String pic) {
 
         // 跨域解决
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -121,7 +131,18 @@ public class HomeInController {
         return ResponseUtlis.success("上传成功");
     }
 
-    //宣言
+    //查询宣言,简介
+    @RequestMapping("selectTitle")
+    public Response<SysDescribeInfo> selectTitle(HttpServletResponse response,@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        SysDescribeInfo sysDescribeInfo = homeInService.selectByAreaCode(areaCode);
+        return ResponseUtlis.success(sysDescribeInfo);
+    }
+
+    //修改宣言,简介
     @RequestMapping("uploadTitle")
     public Response<SysDescribeInfo> uploadTitle(HttpServletResponse response, SysDescribeInfo sysDescribeInfo) {
 
@@ -131,6 +152,8 @@ public class HomeInController {
         homeInService.updateSummary(sysDescribeInfo);
         return ResponseUtlis.success("修改成功");
     }
+
+    //线下捐款
 
     //联谊会概况
     //数量
@@ -142,7 +165,7 @@ public class HomeInController {
         response.setHeader("Access-Control-Allow-Origin", "*");
 
         DescInfo descInfo = homeInService.countDescInfo(areaCode, status);
-        return ResponseUtlis.success("descInfo");
+        return ResponseUtlis.success(descInfo);
     }
 
     //添加
@@ -159,7 +182,7 @@ public class HomeInController {
     //查询
     @RequestMapping("selectDesc")
     public Response<SysDescInfo> selectSysDescInfo(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
-                                                   @RequestParam(value = "status", defaultValue = "2") Integer status) {
+                                                   @RequestParam(value = "status", defaultValue = "0") Integer status) {
 
         // 跨域解决
         response.setHeader("Access-Control-Allow-Origin", "*");
