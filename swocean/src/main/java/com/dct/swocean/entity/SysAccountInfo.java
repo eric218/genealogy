@@ -9,6 +9,7 @@ public class SysAccountInfo implements Serializable {
 	private String account;
 	private String name;
 	private String descript;
+	private Integer type;
 	private BigDecimal remain;
 	private Integer status;
 	private String region;
@@ -69,4 +70,11 @@ public class SysAccountInfo implements Serializable {
 		this.region = region;
 	}
 
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
 }
