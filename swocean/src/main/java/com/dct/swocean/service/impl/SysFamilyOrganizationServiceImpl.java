@@ -38,9 +38,9 @@ public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationSe
 	@Autowired
 	private FamilyOrganizationMapper2 familyOrganizationMapper;
 	
-	//返回状态码 成功 SUCCESSFUL_CODE
+	//返回状态码 成功 200
 	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;
-	//返回状态码 失败 FAILURE_CODE
+	//返回状态码 失败 500
 	private Integer FAILURE_CODE=ConstantClassField.FAILURE_CODE;
 	
 	//家族组织机构后台文章分类查询
