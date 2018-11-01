@@ -5,16 +5,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.Drawing;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.dct.swocean.entity.Donor;
+import com.dct.swocean.common.Donor;
 import com.dct.swocean.entity.SysAccountInfo;
 import com.dct.swocean.entity.SysDonationInfo;
 import com.dct.swocean.entity.SysDrowingInfo;
@@ -31,7 +25,8 @@ import com.dct.swocean.util.ResponseUtlis;
 import io.swagger.annotations.Api;
 
 @Api(value = "慈善公益")
-@Controller
+@CrossOrigin(origins = "*")
+@RestController
 @RequestMapping("charity")
 public class CharityController {
 
@@ -51,13 +46,8 @@ public class CharityController {
 	private SysWritingInfoService sysWritingInfoService;
 
 	// 慈善基金
-	@ResponseBody
 	@RequestMapping("/money")
-	public Response<SysAccountInfo> selectByAreaCode(HttpServletResponse response,
-			@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysAccountInfo> selectByAreaCode(@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode) {
 
 		SysAccountInfo sysAccountInfo = sysAccountService.selectByAreaCode(areaCode);
 		return ResponseUtlis.success(sysAccountInfo);
@@ -65,68 +55,47 @@ public class CharityController {
 
 	// 基金概况
 	// 基金支出
-	@ResponseBody
 	@RequestMapping("/payLog")
-	public Response<SysPayLogInfo> payLogInfo(HttpServletResponse response,
-			@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode,
+	public Response<SysPayLogInfo> payLogInfo(@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode,
 			@RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
-			@RequestParam(name = "pagesize", defaultValue = "5") Integer pageSize) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(name = "pageSize", defaultValue = "5") Integer pageSize) {
 
 		List<SysPayLogInfo> list = sysPayLogInfoService.selectByPayTime(areaCode, pageNo, pageSize);
 		return ResponseUtlis.success(list);
 	}
 
 	// 基金捐赠
-	@ResponseBody
 	@RequestMapping("/donation")
-	public Response<SysDonationInfo> donationInfo(HttpServletResponse response,
-			@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode,
+	public Response<SysDonationInfo> donationInfo(@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode,
 			@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(name = "pagesize", defaultValue = "3") Integer pageSize) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
 
 		List<Donor> donors = sysDonationInfoService.selectByPayTime(areaCode, pageNo - 1, pageSize);
 		return ResponseUtlis.success(donors);
 	}
 
 	// 基金收入
-	@ResponseBody
 	@RequestMapping("/donor")
-	public Response<Donor> selectByDonor(HttpServletResponse response,
-			@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode,
+	public Response<Donor> selectByDonor(@RequestParam(name = "areaCode", defaultValue = "420115") String areaCode,
 			@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(name = "pagesize", defaultValue = "3") Integer pageSize) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
 
 		List<Donor> donorList = sysDonationInfoService.selectByDonor(areaCode, pageNo - 1, pageSize);
 		return ResponseUtlis.success(donorList);
 	}
 
 	// 新增捐赠
-	@ResponseBody
 	@RequestMapping(value = "insertDonation", method = RequestMethod.POST)
 	public Response<SysDonationInfo> insertDonation() {
 		return null;
 	}
 
 	// 發表
-	@ResponseBody
 	@RequestMapping(value = "publish", method = RequestMethod.POST)
-	public Response<SysPayLogInfo> selectPayLog(HttpServletResponse response,
-			@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+	public Response<SysPayLogInfo> selectPayLog(@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
 			@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "1") Integer pageSize,
 			@RequestParam(value = "style", defaultValue = "18") String style) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
 
 		List<SysWritingInfo> sysWritingInfos = sysWritingInfoService.selectByTime(style, areaCode, pageNo, pageSize);
 		SysWritingInfo sysWritingInfo = sysWritingInfos.get(0);
@@ -141,17 +110,12 @@ public class CharityController {
 
 	
 	// 发布成功
-	@ResponseBody
 	@RequestMapping(value = "insertPayLog", method = RequestMethod.POST)
-	public Response<SysPayLogInfo> insertPayLog01(HttpServletResponse response,
-			@RequestParam("payContent") String payContent, @RequestParam("payAmount") BigDecimal payAmount,
+	public Response<SysPayLogInfo> insertPayLog01(@RequestParam("payContent") String payContent, @RequestParam("payAmount") BigDecimal payAmount,
 			/*
 			 * @RequestParam(value = "style", defaultValue = "19") String style,
 			 */ @RequestParam("creator") String creator,
 			@RequestParam(value = "status", defaultValue = "1") String status) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
 
 		sysPayLogInfoService.insert(payAmount, payContent, creator, status);
 
@@ -161,12 +125,8 @@ public class CharityController {
 	}
 
 	// 基金提现
-	@ResponseBody
 	@RequestMapping(value = "drowing", method = RequestMethod.POST)
-	public Response<SysPayLogInfo> Drawing(HttpServletResponse response, SysDrowingInfo sysDrowingInfo) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysPayLogInfo> Drawing(SysDrowingInfo sysDrowingInfo) {
 
 		// 新增提现流水
 		sysDrowingService.insert(sysDrowingInfo);
@@ -177,15 +137,10 @@ public class CharityController {
 	}
 
 	// 提现记录
-	@ResponseBody
 	@RequestMapping(value = "selectDrowing", method = RequestMethod.POST)
-	public Response<SysDrowingInfo> selectDrowing(HttpServletResponse response,
-			@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+	public Response<SysDrowingInfo> selectDrowing(@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
 			@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize) {
-
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
 
 		List<SysDrowingInfo> sysDrowingInfos = sysDrowingService.select(areaCode, pageNo - 1, pageSize);
 
@@ -193,20 +148,35 @@ public class CharityController {
 	}
 
 	// 草稿
-	@ResponseBody
 	@RequestMapping(value = "draft", method = RequestMethod.POST)
-	public Response<SysPayLogInfo> insertPayLog02(HttpServletResponse response,
-			@RequestParam("payContent") String payContent, @RequestParam("payAmount") BigDecimal payAmount,
+	public Response<SysPayLogInfo> insertPayLog02(@RequestParam("payContent") String payContent, @RequestParam("payAmount") BigDecimal payAmount,
 			/*
 			 * @RequestParam(value = "style", defaultValue = "19") String style,
 			 */ @RequestParam("creator") String creator,
 			@RequestParam(value = "status", defaultValue = "0") String status) {
 
-		// 跨域解决
-		response.setHeader("Access-Control-Allow-Origin", "*");
-
 		sysPayLogInfoService.insert(payAmount, payContent, creator, status);
 
 		return ResponseUtlis.success("保存草稿");
 	}
+
+	//财务支出
+	@RequestMapping("expendInfo")
+	public Response<SysWritingInfo> expendInfo(@RequestParam(value = "netId",defaultValue = "1")Integer netId,
+											   @RequestParam(value = "news_column",defaultValue = "17")String news_column) {
+
+		//sysWritingInfoService.
+		return null;
+	}
+
+	//财务收入
+	@RequestMapping("incomeInfo")
+	public Response<SysWritingInfo> incomeInfo(@RequestParam(value = "netId",defaultValue = "1")Integer netId,
+											   @RequestParam(value = "news_column",defaultValue = "17")String news_column) {
+
+		//sysWritingInfoService.
+		return null;
+	}
+
+	//
 }

@@ -1,6 +1,6 @@
 package com.dct.swocean.dao;
 
-import com.dct.swocean.entity.DescInfo;
+import com.dct.swocean.common.DescInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

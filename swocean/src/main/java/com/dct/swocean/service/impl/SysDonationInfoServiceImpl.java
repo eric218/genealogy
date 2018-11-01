@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.dct.swocean.common.Donor;
 import com.dct.swocean.dao.*;
 import com.dct.swocean.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;

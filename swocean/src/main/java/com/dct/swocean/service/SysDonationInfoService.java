@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.dct.swocean.entity.Donor;
-import com.dct.swocean.entity.DontionAreaInfo;
+import com.dct.swocean.common.Donor;
 import com.dct.swocean.entity.SysDonationInfo;
 
 public interface SysDonationInfoService {

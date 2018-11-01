@@ -1,4 +1,9 @@
-package com.dct.swocean.entity;
+package com.dct.swocean.common;
+
+import com.dct.swocean.entity.SysUploadInfo;
+import com.dct.swocean.entity.SysUserRegInof;
+import com.dct.swocean.entity.SysWritingInfo;
+import com.dct.swocean.entity.SysZipaiInfo;
 
 import java.io.Serializable;
 import java.util.List;

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.dct.swocean.common.*;
 import com.dct.swocean.entity.*;
 import com.dct.swocean.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
-import com.dct.swocean.common.CulturePage;
-import com.dct.swocean.common.FamilyCelebrity;
-import com.dct.swocean.common.FamilyIndustry;
-import com.dct.swocean.common.RecordNotice;
 import com.dct.swocean.util.DateUtil;
 import com.dct.swocean.util.MessageUtil;
 import com.dct.swocean.util.Response;

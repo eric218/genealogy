@@ -1,6 +1,6 @@
 package com.dct.swocean.dao;
 
-import com.dct.swocean.entity.ArticlerInfo;
+import com.dct.swocean.common.ArticlerInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

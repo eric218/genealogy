@@ -1,7 +1,6 @@
 package com.dct.swocean.service;
 
-import com.dct.swocean.common.AreaLeader;
-import com.dct.swocean.common.AreaLeaderInfo;
+import com.dct.swocean.common.*;
 import com.dct.swocean.entity.*;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.dct.swocean.entity;
+package com.dct.swocean.common;
 
 import java.io.Serializable;
 

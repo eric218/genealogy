@@ -6,14 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dct.swocean.common.FastDFSClient;
-import com.dct.swocean.entity.PersonInfo;
+import com.dct.swocean.common.PersonInfo;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysDonationInfo;
 import com.dct.swocean.entity.SysUploadInfo;
