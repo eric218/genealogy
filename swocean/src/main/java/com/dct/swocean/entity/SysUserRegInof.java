@@ -21,6 +21,7 @@ public class SysUserRegInof implements Serializable {
 	private String surname;
 	private String region;
 	private String realName;
+	private String leader;
 	private String summary;
 	private Timestamp createTime;
 	private Integer fans;
@@ -28,6 +29,10 @@ public class SysUserRegInof implements Serializable {
 	private String creator;
 	private int status;
 	private String pic;
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
 
 	public String getRegId() {
 		return regId;

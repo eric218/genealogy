@@ -25,6 +25,9 @@ public class SysDonationInfo implements Serializable {
 	// 捐款金额
 	private BigDecimal payAmount;
 
+	//捐款方式
+	private Integer type;
+
 	// 支付渠道
 	private String payChannel;
 
@@ -48,6 +51,14 @@ public class SysDonationInfo implements Serializable {
 
 	// 状态
 	private Integer status;
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
 	public String getDonationId() {
 		return donationId;

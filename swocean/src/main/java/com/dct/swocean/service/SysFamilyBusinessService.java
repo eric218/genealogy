@@ -4,7 +4,6 @@ import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
 import com.dct.swocean.entity.SysRightinfoInfo;
 import com.dct.swocean.entity.SysWritingInfo;
-import com.dct.swocean.entity.SysZipaiInfo;
 import com.dct.swocean.util.Response;
 
 public interface SysFamilyBusinessService{
@@ -54,7 +53,7 @@ public interface SysFamilyBusinessService{
 	 * 进入前台家族产业发表页面详情
 	 * @param writingsId 文章ID
 	 */
-	 SysWritingInfo detailsPublish(String writingsId);
+	 Response<SysWritingInfo> detailsPublish(String writingsId);
 	 
 	/**
 	 * 进入前台家族产业发表页面草稿删除
@@ -74,7 +73,7 @@ public interface SysFamilyBusinessService{
 	 * 增加点赞数
 	 * @param writingsId 文章ID
 	 */
-	void insertLike(String writingsId);
+	Response<SysWritingInfo> insertLike(String writingsId);
 
     /**
      * 查看详情增加查看数
@@ -95,7 +94,7 @@ public interface SysFamilyBusinessService{
 	 * @param column  分类栏目
 	 * @param rightName  分类名称
 	 */
-	void addClassify(String column,String rightName);
+	Response<SysRightinfoInfo> addClassify(String column,String rightName);
 
 	/**
 	 * 家族产业后台文章分类删除
@@ -128,7 +127,7 @@ public interface SysFamilyBusinessService{
      * @param familyName  姓氏名称
 	 * @return
 	 */
-	CulturePage backstageCommonality(String userId, Integer style, Integer pageNow, Integer pageSize, String areaCode,
+	Response<CulturePage> backstageCommonality(String userId, Integer style, Integer pageNow, Integer pageSize, String areaCode,
 			String familyName,String type);
 
 
@@ -137,7 +136,7 @@ public interface SysFamilyBusinessService{
 	 * @param writingsId 文章ID
 	 * @return
 	 */
-	FamilyIndustry backstage(String writingsId);
+	Response<FamilyIndustry> backstage(String writingsId);
 
 	/**
 	 * 家族产业后台删除信息

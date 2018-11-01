@@ -101,6 +101,16 @@ public class SysProvincialCultureController {
 		return provincialUnderling;
 	}
 
+	// 省级家族文化后台分类查询
+		@RequestMapping(value = "/typeQueryingAfter", method = RequestMethod.POST)
+		public Response<SysRightinfoInfo> typeQueryingAfter(@RequestParam("parentId") Integer parentId,
+				HttpServletResponse res) {
+			// 跨域解决
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			Response<SysRightinfoInfo> addClassify = sysFamilyCultureService.typeQuerying(parentId);
+			return addClassify;
+		}
+	
 	// 省级家族文化后台文章分类添加
 	@RequestMapping(value = "/addClassify", method = RequestMethod.POST)
 	public Response<SysRightinfoInfo> addClassify(@RequestParam("column") String column,

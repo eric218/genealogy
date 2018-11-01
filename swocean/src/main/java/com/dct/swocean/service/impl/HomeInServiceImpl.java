@@ -1,14 +1,16 @@
 package com.dct.swocean.service.impl;
 
-import com.dct.swocean.common.ConstantClassField;
-import com.dct.swocean.common.FastDFSClient;
-import com.dct.swocean.common.IDUtils;
+import com.dct.swocean.common.*;
 import com.dct.swocean.dao.*;
 import com.dct.swocean.entity.*;
 import com.dct.swocean.service.HomeInService;
+import com.dct.swocean.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,6 +45,39 @@ public class HomeInServiceImpl implements HomeInService {
 
     @Autowired
     private SysPicMapper sysPicMapper;
+
+    @Autowired
+    private SysUploadInfoMapper sysUploadInfoMapper;
+
+    @Autowired
+    private SysWritingInfoMapper sysWritingInfoMapper;
+
+    @Autowired
+    private AreaLeaderMapper areaLeaderMapper;
+
+    @Autowired
+    private AreaLeaderInfoMapper areaLeaderInfoMapper;
+
+    @Autowired
+    private SysUserRegInofMapper sysUserRegInofMapper;
+
+    @Autowired
+    private SysAccountInfoMapper sysAccountInfoMapper;
+
+    @Autowired
+    private SysDonationInfoMapper sysDonationInfoMapper;
+
+    @Override
+    public SysAccountInfo select(String account) {
+        String sql = "select account,sum(remain) remain from sys_account where account = "+"'"+account+"'"+" group by account";
+        return sysAccountInfoMapper.findOne(sql);
+    }
+
+    @Override
+    public SysAccountInfo selectByType(String account, Integer type) {
+        String sql = "select * from sys_account where account = "+"'"+account+"'"+" and type = "+type;
+        return sysAccountInfoMapper.findOne(sql);
+    }
 
     @Override
     public DontionAreaInfo countDonor(String areaCode) {
@@ -92,7 +127,7 @@ public class HomeInServiceImpl implements HomeInService {
 
         try {
             FastDFSClient fastDFSClient = new FastDFSClient("E:\\work\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");
-            pic = ConstantClassField.IP_FAST_DFS+fastDFSClient.uploadFile(pic);
+            pic = ConstantClassField.IP_FAST_DFS + fastDFSClient.uploadFile(pic);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,13 +163,13 @@ public class HomeInServiceImpl implements HomeInService {
     @Override
     public void addDescInfo(SysDescInfo sysDescInfo) {
         String id = IDUtils.genId() + "";
-        String sql = "insert into sys_desc values (" + "'" + id + "'" + "," + "'" + sysDescInfo.getDescGroup() + "'" + "," + "'" + sysDescInfo.getDescRoot() + "'" + "," + "'" + sysDescInfo.getAreaCode() + "'" + "," + "'" + sysDescInfo.getDescLeader() + "'" + "," + "'" + sysDescInfo.getPhone() + "'" +","+ 0 + "," + 0 + "," + sysDescInfo.getStatus() + ")";
+        String sql = "insert into sys_desc values (" + "'" + id + "'" + "," + "'" + sysDescInfo.getDescGroup() + "'" + "," + "'" + sysDescInfo.getDescRoot() + "'" + "," + "'" + sysDescInfo.getAreaCode() + "'" + "," + "'" + sysDescInfo.getDescLeader() + "'" + "," + "'" + sysDescInfo.getPhone() + "'" + "," + 0 + "," + 0 + "," + sysDescInfo.getStatus() + ")";
         sysDescInfoMapper.insert(sql);
     }
 
     @Override
     public List<SysDescInfo> selectSysDescInfo(String areaCode, Integer status) {
-        String sql = "select * from sys_desc where area_code = " + "'" + areaCode + "'" + " and status !=" + status+" order by desc_id desc";
+        String sql = "select * from sys_desc where area_code = " + "'" + areaCode + "'" + " and status !=" + status + " order by desc_id desc";
         return sysDescInfoMapper.findList(sql);
     }
 
@@ -147,7 +182,7 @@ public class HomeInServiceImpl implements HomeInService {
     @Override
     public void updateSysDescInfo(SysDescInfo sysDescInfo) {
 
-        String sql = "update sys_desc set desc_group =" + "'" + sysDescInfo.getDescGroup() + "'" + "," + " desc_root =" + "'" + sysDescInfo.getDescRoot() + "'" + "," + " desc_leader =" + "'" + sysDescInfo.getDescLeader() + "'" + "," + " phone =" + "'" + sysDescInfo.getPhone() + "'"+"," + " status =" + sysDescInfo.getStatus() + " where desc_id =" + "'" + sysDescInfo.getDescId() + "'";
+        String sql = "update sys_desc set desc_group =" + "'" + sysDescInfo.getDescGroup() + "'" + "," + " desc_root =" + "'" + sysDescInfo.getDescRoot() + "'" + "," + " desc_leader =" + "'" + sysDescInfo.getDescLeader() + "'" + "," + " phone =" + "'" + sysDescInfo.getPhone() + "'" + "," + " status =" + sysDescInfo.getStatus() + " where desc_id =" + "'" + sysDescInfo.getDescId() + "'";
         sysDescInfoMapper.update(sql);
     }
 
@@ -158,23 +193,130 @@ public class HomeInServiceImpl implements HomeInService {
     }
 
     @Override
-    public void uploadPic(String areaCode, String pic, Integer status, Integer sort) {
+    public List<SysPicInfo> selectListByAreaCode(String areaCode, Integer status) {
+        String sql = "select * from sys_pic where area_code =" + "'" + areaCode + "'" + " and status != " + status;
+        return sysPicMapper.findList(sql);
+    }
+
+    @Override
+    public void addPic(SysPicInfo sysPicInfo) {
 
         try {
+
+            String id = IDUtils.genId() + "";
             FastDFSClient fastDFSClient = new FastDFSClient("E:\\work\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");
-            pic = ConstantClassField.IP_FAST_DFS+fastDFSClient.uploadFile(pic);
+            String pic = ConstantClassField.IP_FAST_DFS + fastDFSClient.uploadFile(sysPicInfo.getPicUrl());
+
+            String sql = "insert into sys_pic values (" + "'" + id + "'" + "," + "'" + pic + "'" + "," + "'" + sysPicInfo.getAreaCode() + "'" + "," + 1 + "," + sysPicInfo.getSort() + ")";
+
+            sysPicMapper.insert(sql);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String id = IDUtils.genId() + "";
-        String sql = "insert into sys_pic values (" + "'" + id + "'" + "," + "'" + pic + "'" + "," + "'" + areaCode + "'" + "," + status + "," + sort + ")";
-        sysPicMapper.insert(sql);
+
+
+    }
+
+    @Override
+    public void updatePic(String pic, String picId) {
+
+        try {
+
+            FastDFSClient fastDFSClient = new FastDFSClient("E:\\work\\genealogy\\swocean\\src\\main\\resources\\fastDFS.properties");
+            pic = ConstantClassField.IP_FAST_DFS + fastDFSClient.uploadFile(pic);
+
+            String sql = "update sys_pic set pic_url =" + "'" + pic + "'" + " where pic_id =" + "'" + picId + "'";
+
+            sysPicMapper.update(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deletePic(String id, Integer status) {
         String sql = "update sys_pic set status =" + status + " where pic_id =" + "'" + id + "'";
         sysPicMapper.update(sql);
+    }
+
+    @Override
+    public List<SysWritingInfo> selectWritingInfo(String areaCode, Integer status, String type,Integer pageNo,Integer pageSize) {
+        String sql = "select * from sys_writing where region ="+"'"+areaCode+"'"+" and type = "+"'"+type+"'"+" and status ="+status+" order by publish_time desc limit "+pageNo+","+pageSize;
+        return sysWritingInfoMapper.findList(sql);
+    }
+
+    @Override
+    public void updateSysWriting(String id, Integer status) {
+        String sql = "update sys_writing set status =" +status+" where writings_id ="+"'"+id+"'";
+         sysWritingInfoMapper.update(sql);
+    }
+
+    @Override
+    public List<SysUploadInfo> selectByUploadTime(String areaCode, String fileType, Integer status,Integer pageNo,Integer pageSize) {
+        String sql = "select * from sys_uploadinfo where region =" + "'" + areaCode + "'" + " and file_type =" + "'" + fileType + "'" + " and status =" + status+" order by upload_time desc limit "+pageNo+","+pageSize;
+        return sysUploadInfoMapper.findList(sql);
+    }
+
+    @Override
+    public void updateSysUpload(String id, Integer status) {
+        String sql = "update sys_uploadinfo set status ="+status+" where file_id ="+"'"+id+"'";
+        sysUploadInfoMapper.update(sql);
+    }
+
+    @Override
+    public AreaLeader selectByAreaCodeAndFamilyName(String areaCode, String family, Integer status) {
+        String sql = "select region areaCode,surname familyName,count(*) count from sys_user_reg where region ="+"'"+areaCode+"'"+" and surname ="+"'"+family+"'"+" and status ="+status;
+        return areaLeaderMapper.findOne(sql);
+    }
+
+    @Override
+    public List<AreaLeaderInfo> selectByStatus(String areaCode, String familyName, Integer status) {
+        String sql="select region areaCode,surname familyName,phone,status,real_name name from sys_user_reg where region ="+"'"+areaCode+"'"+" and surname ="+"'"+familyName+"'"+" and status ="+status;
+        return areaLeaderInfoMapper.findList(sql);
+    }
+
+    @Override
+    public void updateAreaLeaderInfo(String id,String phone,String realName) {
+        String sql = "update sys_user_reg set phone ="+"'"+phone+"'"+","+" real_name ="+"'"+realName+"'"+" where reg_id ="+"'"+id+"'";
+        sysUserRegInofMapper.update(sql);
+    }
+
+    @Override
+    public void updateAreaLeader(String id, Integer status) {
+        String sql = "update sys_user_reg set status =" + status + " where reg_id =" + "'" + id + "'";
+        sysUserRegInofMapper.update(sql);
+    }
+
+    @Override
+    public SysUserRegInof selectByRealName(String text) {
+        String sql = "select * from sys_user_reg where real_name ="+"'"+text+"'"+ " or phone ="+"'"+text+"'";
+        return sysUserRegInofMapper.findOne(sql);
+    }
+
+    @Override
+    public void add(String account, BigDecimal payCount, Integer type) {
+        String sql = "update sys_account set remain = remain +"+"'"+payCount+"'"+" where account ="+"'"+account+"'"+" and type ="+type;
+        sysAccountInfoMapper.update(sql);
+    }
+
+    @Override
+    public void up(String account, BigDecimal payCount, Integer type) {
+        String sql = "update sys_account set remain = remain -"+"'"+payCount+"'"+" where account ="+"'"+account+"'"+" and type ="+type;
+        sysAccountInfoMapper.update(sql);
+    }
+
+    @Override
+    public void addSysDonationInfo(SysDonationInfo sysDonationInfo) {
+
+        String id = IDUtils.genId()+"";
+        Timestamp date = DateUtil.format(new Date());
+
+        String sql = "insert into sys_donation(donation_id,account,donor,pay_amount,"
+                + "pay_time,create_time,creator,type) values(" + id + ',' + sysDonationInfo.getAccount() + ','
+               +"'" + sysDonationInfo.getDonor() + "'"+','
+                + sysDonationInfo.getPayAmount() + ',' + "'" + date + "'" + ',' + "'" + date + "'" + ','
+                + "'" + sysDonationInfo.getDonor() + "'" + "," + sysDonationInfo.getType()+ ")";
+        sysDonationInfoMapper.insert(sql);
     }
 
 }

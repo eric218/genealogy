@@ -50,11 +50,6 @@ public class CharityController {
 	@Autowired
 	private SysWritingInfoService sysWritingInfoService;
 
-	@RequestMapping("")
-	public String demo() {
-		return "charity";
-	}
-
 	// 慈善基金
 	@ResponseBody
 	@RequestMapping("/money")

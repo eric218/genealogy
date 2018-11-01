@@ -3,6 +3,7 @@ package com.dct.swocean.controller;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,21 +22,17 @@ import com.dct.swocean.util.Response;
  */
 @RestController
 @RequestMapping("/organization")
-@SuppressWarnings("unchecked")
+@CrossOrigin(origins = "*") // 跨域
 public class SysFamilyOrganizationController {
 
 	@Autowired
 	private SysFamilyOrganizationService sysFamilyOrganizationService;
 
 	
-	
 	//家族组织机构后台文章分类查询
 	@RequestMapping(value = "/typeQuerying", method = RequestMethod.POST)
 	public Response<SysRightinfoInfo> typeQuerying(
-			@RequestParam("parentId") Integer parentId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("parentId") Integer parentId) {
 		Response<SysRightinfoInfo> addClassify = sysFamilyOrganizationService.typeQuerying(parentId);
 		return addClassify;
 	}
@@ -45,20 +42,16 @@ public class SysFamilyOrganizationController {
 	@RequestMapping(value = "/addClassify", method = RequestMethod.POST)
 	public Response<SysRightinfoInfo> addClassify(@RequestParam("column") String column,
 			@RequestParam("rightName") String rightName,// 文章分类名称
-			@RequestParam(name="status",defaultValue="2") Integer status,// 状态1不能删除2可以删除
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(name="status",defaultValue="2") Integer status// 状态1不能删除2可以删除
+     ) {
 		Response<SysRightinfoInfo> addClassify = sysFamilyOrganizationService.addClassify(column, rightName,status);
 		return addClassify;
 	}
 	
 	// 家族组织机构后台文章分类删除
 		@RequestMapping(value = "/deleteClassify", method = RequestMethod.POST)
-		public Response<SysRightinfoInfo> deleteClassify(@RequestParam("rightId") String rightId,
-				HttpServletResponse res) {
+		public Response<SysRightinfoInfo> deleteClassify(@RequestParam("rightId") String rightId) {
 			// 跨域解决
-			res.setHeader("Access-Control-Allow-Origin", "*");
 			Response<SysRightinfoInfo> response = sysFamilyOrganizationService.deleteClassify(rightId);
 			return response;
 		}
@@ -73,10 +66,7 @@ public class SysFamilyOrganizationController {
 			@RequestParam("familyName") String familyName, // 姓氏
 			@RequestParam("areaCode") String areaCode, // areaCode 地区ID,
 			@RequestParam("pic") String pic, 
-			@RequestParam("status") Integer status, 
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam("status") Integer status) {
 		// 插入数据
 		Response<SysCelebrityInfo> addFigure = sysFamilyOrganizationService.addFigure(userId, style,celebrityName,synopsis, familyName, areaCode, pic, status);
 		return addFigure;
@@ -84,10 +74,7 @@ public class SysFamilyOrganizationController {
 	
 	// 家族组织机构名人详情
 	@RequestMapping(value = "/backstage", method = RequestMethod.POST)
-	public Response<SysCelebrityInfo> backstage(@RequestParam("celebrityId") String celebrityId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysCelebrityInfo> backstage(@RequestParam("celebrityId") String celebrityId) {
 		// 查询
 		Response<SysCelebrityInfo> backstage = sysFamilyOrganizationService.backstage(celebrityId);
 		return backstage;
@@ -95,10 +82,7 @@ public class SysFamilyOrganizationController {
 	
 	//家族组织机构名人进入修改页面
 	@RequestMapping(value = "/updateBackstage", method = RequestMethod.POST)
-	public Response<SysCelebrityInfo> updateBackstage(@RequestParam("celebrityId") String celebrityId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysCelebrityInfo> updateBackstage(@RequestParam("celebrityId") String celebrityId) {
 		// 查询
 		Response<SysCelebrityInfo> backstage = sysFamilyOrganizationService.backstage(celebrityId);
 		return backstage;
@@ -106,10 +90,7 @@ public class SysFamilyOrganizationController {
 
 	// 家族组织机构名人删除信息
 	@RequestMapping(value = "/deleteBackstage", method = RequestMethod.POST)
-	public Response<SysCelebrityInfo> deleteDraft(@RequestParam("celebrityId") String celebrityId,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+	public Response<SysCelebrityInfo> deleteDraft(@RequestParam("celebrityId") String celebrityId) {
 		Response<SysCelebrityInfo> details = sysFamilyOrganizationService.deletePublish(celebrityId);
 		return details;
 	}
@@ -122,10 +103,7 @@ public class SysFamilyOrganizationController {
 			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
-			@RequestParam(value = "status", defaultValue = "1") Integer status,
-			HttpServletResponse res) {
-		// 跨域解决
-		res.setHeader("Access-Control-Allow-Origin", "*");
+			@RequestParam(value = "status", defaultValue = "1") Integer status) {
 		Response<CulturePage> culture = sysFamilyOrganizationService.culture(style, pageNow, pageSize, areaCode, familyName,status);
 		return culture;
 	}

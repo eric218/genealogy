@@ -1,5 +1,7 @@
 package com.dct.swocean.controller;
 
+import com.dct.swocean.common.AreaLeader;
+import com.dct.swocean.common.AreaLeaderInfo;
 import com.dct.swocean.entity.*;
 import com.dct.swocean.service.HomeInService;
 import com.dct.swocean.service.SysDonationInfoService;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Api(value = "首页后台")
@@ -28,6 +31,29 @@ public class HomeInController {
 
     @Autowired
     private SysWritingInfoService sysWritingInfoService;
+
+    //地区捐款总金额
+    @RequestMapping("selectAccount")
+    public Response<SysAccountInfo> selectAccount(HttpServletResponse response, @RequestParam(value = "account", defaultValue = "10086") String account) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        SysAccountInfo sysAccountInfo = homeInService.select(account);
+        return ResponseUtlis.success(sysAccountInfo);
+    }
+
+    //地区线上/线下捐款
+    @RequestMapping("selectAccountByType")
+    public Response<SysAccountInfo> selectAccountByType(HttpServletResponse response, @RequestParam(value = "account", defaultValue = "10086") String account,
+                                                        @RequestParam(value = "type", defaultValue = "1") Integer type) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        SysAccountInfo sysAccountInfo = homeInService.selectByType(account, type);
+        return ResponseUtlis.success(sysAccountInfo);
+    }
 
     //捐款人数
     @RequestMapping("donorNum")
@@ -133,7 +159,7 @@ public class HomeInController {
 
     //查询宣言,简介
     @RequestMapping("selectTitle")
-    public Response<SysDescribeInfo> selectTitle(HttpServletResponse response,@RequestParam(value = "areaCode", defaultValue = "420115") String areaCode) {
+    public Response<SysDescribeInfo> selectTitle(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode) {
 
         // 跨域解决
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -154,6 +180,29 @@ public class HomeInController {
     }
 
     //线下捐款
+   /* //添加
+    @RequestMapping("addSysAccountInfo")
+    public Response<SysAccountInfo> addSysAccountInfo(HttpServletResponse response, @RequestParam(value = "account", defaultValue = "10086") String account, BigDecimal payCount,
+                                                      @RequestParam(value = "type", defaultValue = "2") Integer type) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.add(account, payCount, type);
+        return ResponseUtlis.success("添加成功");
+    }*/
+
+    //支出
+    @RequestMapping("upSysAccountInfo")
+    public Response<SysAccountInfo> upSysAccountInfo(HttpServletResponse response, @RequestParam(value = "account", defaultValue = "10086") String account, BigDecimal payCount,
+                                                     @RequestParam(value = "type", defaultValue = "2") Integer type) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.up(account, payCount, type);
+        return ResponseUtlis.success("支出成功");
+    }
 
     //联谊会概况
     //数量
@@ -224,26 +273,169 @@ public class HomeInController {
         return ResponseUtlis.success("删除成功");
     }
 
-    //上传
-    @RequestMapping("uploadPic")
-    public Response<SysPicInfo> uploadPic(HttpServletResponse response, String pic, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
-                                          @RequestParam(value = "status", defaultValue = "1") Integer status, Integer sort) {
+    //轮播图(待测)
+    //查询
+    @RequestMapping("selectPic")
+    public Response<SysPicInfo> selectPic(HttpServletResponse response, String pic, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+                                          @RequestParam(value = "status", defaultValue = "0") Integer status) {
 
         // 跨域解决
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        homeInService.uploadPic(areaCode, pic, status, sort);
+        List<SysPicInfo> sysPicInfos = homeInService.selectListByAreaCode(areaCode, status);
+        return ResponseUtlis.success(sysPicInfos);
+    }
+
+    //新增
+    @RequestMapping("addPic")
+    public Response<SysPicInfo> addPic(HttpServletResponse response, SysPicInfo sysPicInfo) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.addPic(sysPicInfo);
         return ResponseUtlis.success("上传成功");
     }
 
-    //前台删除
+    //修改
     @RequestMapping("updatePic")
-    public Response<SysPicInfo> updatePic(HttpServletResponse response,String id,@RequestParam(value = "status", defaultValue = "2") Integer status) {
+    public Response<SysPicInfo> updatePic(HttpServletResponse response, String pic, String picId) {
 
         // 跨域解决
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        homeInService.deletePic(id,status);
+        homeInService.updatePic(pic, picId);
+        return ResponseUtlis.success("修改成功");
+    }
+
+    //删除
+    @RequestMapping("delPic")
+    public Response<SysPicInfo> delPic(HttpServletResponse response, String id, @RequestParam(value = "status", defaultValue = "2") Integer status) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.deletePic(id, status);
         return ResponseUtlis.success("删除成功");
+    }
+
+    //个人文章
+    @RequestMapping("selectWriting")
+    public Response<SysWritingInfo> selectWriting(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+                                                  @RequestParam(value = "type", defaultValue = "04") String type, @RequestParam(value = "status", defaultValue = "1") Integer status,
+                                                  @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        List<SysWritingInfo> sysWritingInfos = homeInService.selectWritingInfo(areaCode, status, type, pageNo - 1, pageSize);
+        return ResponseUtlis.success(sysWritingInfos);
+    }
+
+    //修改个人文章是否展示
+    @RequestMapping("updateWriting")
+    public Response<SysWritingInfo> updateWriting(HttpServletResponse response, String id, Integer status) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.updateSysWriting(id, status);
+        return ResponseUtlis.success("修改成功");
+    }
+
+    //个人视频
+    @RequestMapping("selectUpload")
+    public Response<SysUploadInfo> selectUpload(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+                                                @RequestParam(value = "fileType", defaultValue = "02") String fileType, @RequestParam(value = "status", defaultValue = "1") Integer status,
+                                                @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        List<SysUploadInfo> sysUploadInfos = homeInService.selectByUploadTime(areaCode, fileType, status, pageNo - 1, pageSize);
+        return ResponseUtlis.success(sysUploadInfos);
+    }
+
+    //修改个人视频是否展示
+    @RequestMapping("updateSysUploadInfo")
+    public Response<SysWritingInfo> updateSysUploadInfo(HttpServletResponse response, String id, Integer status) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.updateSysUpload(id, status);
+        return ResponseUtlis.success("修改成功");
+    }
+
+    //管理员
+    @RequestMapping("countAreaLeader")
+    public Response<AreaLeader> countAreaLeader(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+                                                @RequestParam(value = "familyName", defaultValue = "0001") String familyName, @RequestParam(value = "status", defaultValue = "1") Integer status) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        AreaLeader areaLeader = homeInService.selectByAreaCodeAndFamilyName(areaCode, familyName, status);
+        return ResponseUtlis.success(areaLeader);
+    }
+
+    //管理员信息
+    @RequestMapping("selectAreaLeaderInfo")
+    public Response<AreaLeaderInfo> selectAreaLeaderInfo(HttpServletResponse response, @RequestParam(value = "areaCode", defaultValue = "420115") String areaCode,
+                                                         @RequestParam(value = "familyName", defaultValue = "0001") String familyName, @RequestParam(value = "status", defaultValue = "1") Integer status) {
+
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        List<AreaLeaderInfo> areaLeaderInfos = homeInService.selectByStatus(areaCode, familyName, status);
+        return ResponseUtlis.success(areaLeaderInfos);
+    }
+
+    //修改管理员信息
+    @RequestMapping("updateAreaLeaderInfo")
+    public Response<AreaLeaderInfo> updateAreaLeaderInfo(HttpServletResponse response, String id, String phone, String realName) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.updateAreaLeaderInfo(id, phone, realName);
+        return ResponseUtlis.success("修改成功");
+    }
+
+    //修改管理员状态
+    @RequestMapping("updateAreaLeader")
+    public Response<AreaLeaderInfo> updateAreaLeader(HttpServletResponse response, String id, Integer status) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.updateAreaLeader(id, status);
+        return ResponseUtlis.success("修改成功");
+    }
+
+    //搜索
+    @RequestMapping("selectSysUserInfo")
+    public Response<SysUserRegInof> selectSysUserInfo(HttpServletResponse response, String text) {
+
+        // 跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        SysUserRegInof sysUserRegInof = homeInService.selectByRealName(text);
+        return ResponseUtlis.success(sysUserRegInof);
+    }
+
+    //新增线下捐款信息
+    @RequestMapping("addSysDontaionInfo")
+    public Response<SysDonationInfo> addSysDontaionInfo(SysDonationInfo sysDonationInfo, HttpServletResponse response) {
+
+        //跨域解决
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        homeInService.addSysDonationInfo(sysDonationInfo);
+
+        homeInService.add(sysDonationInfo.getAccount(),  sysDonationInfo.getPayAmount(), sysDonationInfo.getType());
+
+        return ResponseUtlis.success("添加成功");
     }
 }

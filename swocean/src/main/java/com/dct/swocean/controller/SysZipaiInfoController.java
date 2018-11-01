@@ -31,12 +31,12 @@ public class SysZipaiInfoController {
 	public Response<CulturePage> character(@RequestParam("userId") String userId,
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value = "status",defaultValue="1") Integer status, //状态1是发表 状态0是草稿 状态2不能显示表示已删除
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, //  姓氏ID
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize, HttpServletResponse res) {
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
-		Response<CulturePage> culture = sysZipaiInfoService.culture(userId,status,pageNow, pageSize, areaCode, familyName);
+		Response<CulturePage> culture = sysZipaiInfoService.culture(userId,status,pageNow, pageSize, areaCode, family);
 		return culture;
 	}
 	//###########################发表页面  上####################################
@@ -45,12 +45,12 @@ public class SysZipaiInfoController {
 	public Response<CulturePage> enterPublish(@RequestParam("userId") String userId,
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value = "status",defaultValue="0") Integer status, //状态1是发表 状态0是草稿 状态2不能显示表示已删除
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, //  姓氏ID
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize, HttpServletResponse res) {
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
-		Response<CulturePage> culture = sysZipaiInfoService.culture(userId,status,pageNow, pageSize, areaCode, familyName);
+		Response<CulturePage> culture = sysZipaiInfoService.culture(userId,status,pageNow, pageSize, areaCode, family);
 		return culture;
 	}	
 	
@@ -79,13 +79,13 @@ public class SysZipaiInfoController {
 			@RequestParam(value="location")String location,//地区具体地址
 			@RequestParam(value="ancestorsName")String ancestorsName, //祖先名
 			@RequestParam(value="zipaiOrder")String zipaiOrder,       //字派序列
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, // familyName 姓氏名称
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value="status")String status,HttpServletResponse res){
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//发表信息
-		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,familyName,areaCode,status);
+		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,family,areaCode,status);
 		return response;
 	}
 	
@@ -105,13 +105,13 @@ public class SysZipaiInfoController {
 			@RequestParam(value="location")String location,//地区具体地址
 			@RequestParam(value="ancestorsName")String ancestorsName, //祖先名
 			@RequestParam(value="zipaiOrder")String zipaiOrder,       //字派序列
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, // familyName 姓氏名称
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value="status")String status,HttpServletResponse res){
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//发表信息
-		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,familyName,areaCode,status);
+		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,family,areaCode,status);
 		return response;
 	}
 	//###########################发表页面    下####################################
@@ -120,13 +120,15 @@ public class SysZipaiInfoController {
 	
 	//家族字派搜索
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public Response<SysZipaiInfo> search (@RequestParam(value="zipaiOrder")String zipaiOrder,
+	public Response<CulturePage> search (@RequestParam(value="zipaiOrder")String zipaiOrder,
+			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
+			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize,
 			HttpServletResponse res){
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//搜索信息
-		Response<SysZipaiInfo> response = sysZipaiInfoService.search(zipaiOrder);
-		return response;
+		 Response<CulturePage> search = sysZipaiInfoService.search(zipaiOrder,pageNow,pageSize);
+		return search;
 	}
 	
 	//家族字派收藏
@@ -214,12 +216,12 @@ public class SysZipaiInfoController {
 	public Response<CulturePage> backstage (@RequestParam("userId") String userId,
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 	        //状态1是发表 状态0是草稿 状态2不能显示表示已删除
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, // 姓氏ID
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize, HttpServletResponse res) {
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
-		 Response<CulturePage> backstage = sysZipaiInfoService.backstage(userId,pageNow, pageSize, areaCode, familyName);
+		 Response<CulturePage> backstage = sysZipaiInfoService.backstage(userId,pageNow, pageSize, areaCode, family);
 		return backstage;
 	}
 	
@@ -229,12 +231,12 @@ public class SysZipaiInfoController {
 	public Response<CulturePage> backstagePublish(@RequestParam("userId") String userId,
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value = "status",defaultValue="0") Integer status, //状态1是发表 状态0是草稿 状态2不能显示表示已删除
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, //  姓氏ID
 			@RequestParam(value = "pageNow", defaultValue = "1") Integer pageNow,
 			@RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize, HttpServletResponse res) {
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
-		Response<CulturePage> culture = sysZipaiInfoService.culture(userId,status,pageNow, pageSize, areaCode, familyName);
+		Response<CulturePage> culture = sysZipaiInfoService.culture(userId,status,pageNow, pageSize, areaCode, family);
 		return culture;
 	}
 	
@@ -263,13 +265,13 @@ public class SysZipaiInfoController {
 			@RequestParam(value="location")String location,//地区具体地址
 			@RequestParam(value="ancestorsName")String ancestorsName, //祖先名
 			@RequestParam(value="zipaiOrder")String zipaiOrder,       //字派序列
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, // familyName 姓氏名称
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value="status")String status,HttpServletResponse res){
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//发表信息
-		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,familyName,areaCode,status);
+		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,family,areaCode,status);
 		return response;
 	}
 	
@@ -289,13 +291,13 @@ public class SysZipaiInfoController {
 			@RequestParam(value="location")String location,//地区具体地址
 			@RequestParam(value="ancestorsName")String ancestorsName, //祖先名
 			@RequestParam(value="zipaiOrder")String zipaiOrder,       //字派序列
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, // familyName 姓氏名称
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value="status")String status,HttpServletResponse res){
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//发表信息
-		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,familyName,areaCode,status);
+		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,family,areaCode,status);
 		return response;
 	}
 	//**************************添加页面  上**********************************************
@@ -316,13 +318,13 @@ public class SysZipaiInfoController {
 			@RequestParam(value="location")String location,//地区具体地址
 			@RequestParam(value="ancestorsName")String ancestorsName, //祖先名
 			@RequestParam(value="zipaiOrder")String zipaiOrder,       //字派序列
-			@RequestParam(value = "familyName") String familyName, // familyName 姓氏名称
+			@RequestParam(value = "family") Integer family, // familyName 姓氏名称
 			@RequestParam(value = "areaCode") String areaCode, // areaCode 地区ID
 			@RequestParam(value="status")String status,HttpServletResponse res){
 		// 跨域解决
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		//发表信息
-		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,familyName,areaCode,status);
+		Response<SysZipaiInfo> response = sysZipaiInfoService.publish(userId,location,ancestorsName,zipaiOrder,family,areaCode,status);
 		return response;
 	}
 	

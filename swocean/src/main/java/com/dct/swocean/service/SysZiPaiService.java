@@ -3,6 +3,7 @@ package com.dct.swocean.service;
 import java.util.List;
 
 import com.dct.swocean.common.CulturePage;
+import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysFatherInfo;
 import com.dct.swocean.entity.SysZipaiInfo;
 import com.dct.swocean.entity.sysCommentInfo;
@@ -27,11 +28,11 @@ public interface SysZiPaiService {
      * @param pageSize 每页显示数据条数
      * @param status   状态1是发表 状态0是草稿 状态2不能显示表示已删除 
      * @param areaCode  地区ID
-     * @param familyName 姓氏名称
+     * @param family 姓氏ID
      * @return
      */
 	Response<CulturePage> culture(String userId,Integer status,Integer pageNow, Integer pageSize, String areaCode,
-			String familyName);
+			Integer family);
 
 	/**
 	 * 家族字派发表信息
@@ -39,18 +40,20 @@ public interface SysZiPaiService {
 	 * @param location 地区具体地址
 	 * @param ancestorsName 祖先名
 	 * @param zipaiOrder 字派序列
-	 * @param familyName 姓氏名称
+	 * @param family 姓氏ID
 	 * @param areaCode 地区ID
 	 * @param status  状态1是发表 状态0是草稿 状态2不能显示删除
 	 */
-	Response<SysZipaiInfo> publish(String userId, String location, String ancestorsName, String zipaiOrder, String familyName,
+	Response<SysZipaiInfo> publish(String userId, String location, String ancestorsName, String zipaiOrder, Integer family,
 			String areaCode, String status);
 
 	/**
 	 * 家族字派搜索
 	 * @param zipaiOrder 搜索
+	 * @param pageSize 每页显示条数
+	 * @param pageNow  当前页
 	 */
-	Response<SysZipaiInfo> search(String zipaiOrder);
+	Response<CulturePage> search(String zipaiOrder, Integer pageNow, Integer pageSize);
 
 	/**
 	 * 家族字派发表页面详情
@@ -75,10 +78,10 @@ public interface SysZiPaiService {
 	 * @param pageNow 当前页
      * @param pageSize 每页显示数据条数
      * @param areaCode  地区ID
-     * @param familyName 姓氏名称
+     * @param family 姓氏ID
 	 * @return
 	 */
-	Response<CulturePage> backstage(String userId, Integer pageNow, Integer pageSize, String areaCode, String familyName);
+	Response<CulturePage> backstage(String userId, Integer pageNow, Integer pageSize, String areaCode, Integer family);
 
 	/**
 	 * 家族字派后台信息的删除
@@ -142,5 +145,26 @@ public interface SysZiPaiService {
 	 * @return
 	 */
 	Response<SysFatherInfo> father(String text, String fatherId);
+
+	
+	//**************************省级页面******************************
+	/**
+	 * 省级地区选择下拉框
+	 * @param areaCode  省级ID
+	 * @param family  姓氏ID
+	 * @return
+	 */
+	Response<SysConstantInfo> county(String areaCode, String family);
+
+	/**
+	 * 省级地区选择下拉框地区字派查询
+	 * @param areaCode 县级ID
+	 * @param family   姓氏ID
+	 * @param status   状态
+	 * @param pageSize 每页显示条数
+	 * @param pageNow  当前页
+	 * @return
+	 */
+	Response<CulturePage> selectCounty(String areaCode, String family, Integer status, Integer pageNow, Integer pageSize);
 
 }

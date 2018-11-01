@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
-import com.dct.swocean.common.FastDFSClient;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.dao.FamilyIndustryMapper;
 import com.dct.swocean.dao.SysAreaInfoMapper;
@@ -28,8 +27,6 @@ import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysRightinfoInfo;
 import com.dct.swocean.entity.SysUserRegInof;
 import com.dct.swocean.entity.SysWritingInfo;
-import com.dct.swocean.entity.SysZipaiInfo;
-import com.dct.swocean.service.SysCultureService;
 import com.dct.swocean.service.SysFamilyCultureService;
 import com.dct.swocean.util.DateUtil;
 import com.dct.swocean.util.Response;
@@ -60,6 +57,12 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 	@Autowired
 	private SysCollectInfoMapper sysCollectInfoMapper;
 	
+	//返回状态码 成功 200
+	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;
+	//返回状态码 失败 500
+	private Integer FAILURE_CODE=ConstantClassField.FAILURE_CODE;
+	//返回状态码 错误 400
+	private Integer ERRO_CODE=ConstantClassField.ERRO_CODE;
 
 	// 家族文化分类展示
 	@Override
@@ -91,7 +94,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(culturePage);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 		
 	}
@@ -126,7 +129,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(culturePage);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	}
 
@@ -141,7 +144,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			
 			
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	}
 	
@@ -151,10 +154,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 		try {
 			String sql="DELETE FROM sys_writing WHERE writings_id = '" + writingsId + "'";
 	     	sysWritingInfoMapper.delete(sql);
-			return ResponseUtlis.error(200, "删除成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 	
@@ -213,10 +216,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 					+ "'"+0+"',"
 					+ "'"+type+"')";
 			sysWritingInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "新增成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "新增成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "新增失败");
+			return ResponseUtlis.error(FAILURE_CODE, "新增失败");
 		}
 		
 	}
@@ -240,10 +243,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			sql="INSERT INTO sys_collect (`collect_id`,`user_id`,`writings_id`,`time`) VALUES ('"
 			+collectId+"','"+userId+"','"+writingsId+"','"+format+"')";
 			sysCollectInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "收藏成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "收藏成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "收藏失败");
+			return ResponseUtlis.error(FAILURE_CODE, "收藏失败");
 		}
 	}
 
@@ -258,10 +261,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			int like = findOne.getLike() + 1;
 			sql = "UPDATE sys_writing w SET w.like='" + like + "' WHERE w.writings_id='" + writingsId + "'";
 			sysAreaInfoMapper.update(sql);
-			return ResponseUtlis.error(500, "点赞成功");
+			return ResponseUtlis.error(FAILURE_CODE, "点赞成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "点赞失败");
+			return ResponseUtlis.error(FAILURE_CODE, "点赞失败");
 		}
 		
 
@@ -298,7 +301,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(sysAreaInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 		
 
@@ -320,7 +323,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(findList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 	}
 	
@@ -338,10 +341,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			String sql = "INSERT INTO sys_rightinfo (right_name, parent_id,status) VALUES ('" + rightName + "','" + column
 					+ "','2')";
 			sysRightinfoInfoMapper.insert(sql);
-			return ResponseUtlis.error(500, "添加成功");
+			return ResponseUtlis.error(FAILURE_CODE, "添加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "添加失败");
+			return ResponseUtlis.error(FAILURE_CODE, "添加失败");
 		}
 		
 	}
@@ -359,13 +362,13 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			if (rightinfoInfo.getStatus() == 2) {
 				sql = "DELETE FROM sys_rightinfo WHERE right_id = '" + rightId + "';";
 				sysRightinfoInfoMapper.delete(sql);
-				return ResponseUtlis.error(200, "删除成功");
+				return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 			}else {
-				return ResponseUtlis.error(400, "这个分类不能删除");
+				return ResponseUtlis.error(ERRO_CODE, "这个分类不能删除");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 	
@@ -399,7 +402,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(culturePage);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 		
 	}
@@ -423,7 +426,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(familyIndustry);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "查询失败");
+			return ResponseUtlis.error(FAILURE_CODE, "查询失败");
 		}
 		
 	}
@@ -437,7 +440,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(writingInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "修改失败");
+			return ResponseUtlis.error(FAILURE_CODE, "修改失败");
 		}
 		
 	}
@@ -453,10 +456,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			//修改SysWritingInfo
 			String  sql="update sys_writing set title='"+title+"',summary='"+synopsis+"',text='"+text+"',style='"+style+"',pic='"+path+"',status='"+status+"' WHERE writings_id='"+writingsId+"'";
 			sysWritingInfoMapper.insert(sql);
-			return ResponseUtlis.error(200, "修改成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "修改成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "修改失败");
+			return ResponseUtlis.error(FAILURE_CODE, "修改失败");
 		}
 		
 	}
@@ -474,10 +477,10 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 				sql="DELETE FROM sys_writing WHERE writings_id = '" + writingsId + "'";
 				sysWritingInfoMapper.delete(sql);
 			}
-			return ResponseUtlis.error(200, "删除成功");
+			return ResponseUtlis.error(SUCCESSFUL_CODE, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 
@@ -497,7 +500,7 @@ public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 			return ResponseUtlis.success(findList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseUtlis.error(500, "删除失败");
+			return ResponseUtlis.error(FAILURE_CODE, "删除失败");
 		}
 	}
 	
