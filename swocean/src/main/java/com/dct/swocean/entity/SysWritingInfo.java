@@ -27,6 +27,22 @@ public class SysWritingInfo implements Serializable {
 	private int examine;
 	private String location;
 
+	public int getExamine() {
+		return examine;
+	}
+
+	public void setExamine(int examine) {
+		this.examine = examine;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
