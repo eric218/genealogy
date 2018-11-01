@@ -20,15 +20,15 @@ import com.dct.swocean.common.FamilyCelebrity;
 import com.dct.swocean.common.FamilyIndustry;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.common.RecordNotice;
-import com.dct.swocean.dao.FamilyCelebrityMapper;
-import com.dct.swocean.dao.FamilyIndustryMapper;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysConstantInfoMapper;
-import com.dct.swocean.dao.SysMessageInfoMapper;
-import com.dct.swocean.dao.SysRightinfoInfoMapper;
-import com.dct.swocean.dao.SysUserLoginInfoMappeer;
-import com.dct.swocean.dao.SysUserRegInofMapper;
-import com.dct.swocean.dao.SysWritingInfoMapper;
+import com.dct.swocean.dao.FamilyCelebrityMapper2;
+import com.dct.swocean.dao.FamilyIndustryMapper2;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysConstantInfoMapper2;
+import com.dct.swocean.dao.SysMessageInfoMapper2;
+import com.dct.swocean.dao.SysRightinfoInfoMapper2;
+import com.dct.swocean.dao.SysUserLoginInfoMappeer2;
+import com.dct.swocean.dao.SysUserRegInofMapper2;
+import com.dct.swocean.dao.SysWritingInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysRightinfoInfo;
@@ -47,23 +47,23 @@ import com.github.pagehelper.PageInfo;
 public class SysWritingInfoServiceImpl implements SysWritingInfoService {
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 	@Autowired
-	private SysUserRegInofMapper sysUserRegInofMapper;
+	private SysUserRegInofMapper2 sysUserRegInofMapper;
 	@Autowired
-	private SysRightinfoInfoMapper sysRightinfoInfoMapper;
+	private SysRightinfoInfoMapper2 sysRightinfoInfoMapper;
 	@Autowired
-	private SysWritingInfoMapper sysWritingInfoMapper;
+	private SysWritingInfoMapper2 sysWritingInfoMapper;
 	@Autowired
-	private FamilyIndustryMapper familyIndustryMapper;
+	private FamilyIndustryMapper2 familyIndustryMapper;
 	@Autowired
-	private FamilyCelebrityMapper FamilyCelebrityMapper;
+	private FamilyCelebrityMapper2 FamilyCelebrityMapper;
 	@Autowired
-	private SysMessageInfoMapper sysMessageInfoMapper;
+	private SysMessageInfoMapper2 sysMessageInfoMapper;
 	@Autowired
-	private SysUserLoginInfoMappeer sysUserLoginInfoMappeer;
+	private SysUserLoginInfoMappeer2 sysUserLoginInfoMappeer;
 	@Autowired
-	private SysConstantInfoMapper sysConstantInfoMapper;
+	private SysConstantInfoMapper2 sysConstantInfoMapper;
 
 	// 增加数据库信息
 	@Override

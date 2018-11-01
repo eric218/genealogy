@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dct.swocean.common.IDUtils;
-import com.dct.swocean.dao.SysAccountInfoMapper;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysConstantInfoMapper;
-import com.dct.swocean.dao.SysPayLogInfoMapper;
-import com.dct.swocean.dao.SysUserInfoMapper;
-import com.dct.swocean.dao.SysUserLoginInfoMappeer;
+import com.dct.swocean.dao.SysAccountInfoMapper2;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysConstantInfoMapper2;
+import com.dct.swocean.dao.SysPayLogInfoMapper2;
+import com.dct.swocean.dao.SysUserInfoMapper2;
+import com.dct.swocean.dao.SysUserLoginInfoMappeer2;
 import com.dct.swocean.entity.SysAccountInfo;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysConstantInfo;
@@ -28,19 +28,19 @@ import com.dct.swocean.util.DateUtil;
 public class SysPayLogInfoServiceImpl implements SysPayLogInfoService {
 
 	@Autowired
-	private SysPayLogInfoMapper sysPayLogInfoMapper;
+	private SysPayLogInfoMapper2 sysPayLogInfoMapper;
 
 	@Autowired
-	private SysUserLoginInfoMappeer sysUserLoginInfoMapper;
+	private SysUserLoginInfoMappeer2 sysUserLoginInfoMapper;
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 
 	@Autowired
-	private SysAccountInfoMapper SysAccountInfoMapper;
+	private SysAccountInfoMapper2 SysAccountInfoMapper;
 
 	@Autowired
-	private SysConstantInfoMapper sysConstantInfoMapper;
+	private SysConstantInfoMapper2 sysConstantInfoMapper;
 
 	@Override
 	public void insert(BigDecimal payAccount, String payContent, String creator, String status) {

@@ -20,25 +20,25 @@ import com.dct.swocean.util.DateUtil;
 public class SysDonationInfoServiceImpl implements SysDonationInfoService {
 
     @Autowired
-    private SysDonationInfoMapper sysDonationInfoMapper;
+    private SysDonationInfoMapper2 sysDonationInfoMapper;
 
     @Autowired
-    private SysAreaInfoMapper sysAreaInfoMapper;
+    private SysAreaInfoMapper2 sysAreaInfoMapper;
 
     @Autowired
-    private SysUserLoginInfoMappeer sysUserLoginInfoMapper;
+    private SysUserLoginInfoMappeer2 sysUserLoginInfoMapper;
 
     @Autowired
-    private SysConstantInfoMapper sysConstantInfoMapper;
+    private SysConstantInfoMapper2 sysConstantInfoMapper;
 
     @Autowired
-    private SysAccountInfoMapper sysAccountInfoMapper;
+    private SysAccountInfoMapper2 sysAccountInfoMapper;
 
     @Autowired
-    private DonorMapper donorMapper;
+    private DonorMapper2 donorMapper;
 
     @Autowired
-    private DontionAreaInfoMapper donationAreaInfoMapper;
+    private DontionAreaInfoMapper2 donationAreaInfoMapper;
 
     // 新增捐款信息
     @Override

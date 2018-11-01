@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.IDUtils;
-import com.dct.swocean.dao.SysCollectInfoMapper;
-import com.dct.swocean.dao.SysCommentInfoMapper;
-import com.dct.swocean.dao.SysConstantInfoMapper;
-import com.dct.swocean.dao.SysFatherInfoMapper;
-import com.dct.swocean.dao.SysZipaiInfoMapper;
+import com.dct.swocean.dao.SysCollectInfoMapper2;
+import com.dct.swocean.dao.SysCommentInfoMapper2;
+import com.dct.swocean.dao.SysConstantInfoMapper2;
+import com.dct.swocean.dao.SysFatherInfoMapper2;
+import com.dct.swocean.dao.SysZipaiInfoMapper2;
 import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysFatherInfo;
 import com.dct.swocean.entity.SysZipaiInfo;
@@ -32,15 +32,15 @@ import com.github.pagehelper.PageInfo;
 public class SysZiPaiServiceImpl implements SysZiPaiService {
 
 	@Autowired
-	private SysZipaiInfoMapper sysZipaiInfoMapper;
+	private SysZipaiInfoMapper2 sysZipaiInfoMapper;
 	@Autowired
-	private SysConstantInfoMapper sysConstantInfoMapper;
+	private SysConstantInfoMapper2 sysConstantInfoMapper;
 	@Autowired
-	private SysCollectInfoMapper sysCollectInfoMapper;
+	private SysCollectInfoMapper2 sysCollectInfoMapper;
 	@Autowired
-	private SysCommentInfoMapper sysCommentInfoMapper;
+	private SysCommentInfoMapper2 sysCommentInfoMapper;
 	@Autowired
-	private SysFatherInfoMapper sysFatherInfoMapper;
+	private SysFatherInfoMapper2 sysFatherInfoMapper;
 
 	//返回状态码 成功 200
 	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;

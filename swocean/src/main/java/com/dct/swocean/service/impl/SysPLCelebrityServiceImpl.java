@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.common.RecordNotice;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysWritingInfoMapper;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysWritingInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysCelebrityInfo;
 import com.dct.swocean.entity.SysWritingInfo;
@@ -28,10 +28,10 @@ import com.github.pagehelper.PageInfo;
 @Service
 public class SysPLCelebrityServiceImpl implements SysPlCelebrityServices{
 	@Autowired
-	private SysWritingInfoMapper sysWritingInfoMapper;
+	private SysWritingInfoMapper2 sysWritingInfoMapper;
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 
 	@Override
 	public void inser(SysWritingInfo sysWritingInfo) {

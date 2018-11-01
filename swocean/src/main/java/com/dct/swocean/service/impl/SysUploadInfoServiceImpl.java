@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dct.swocean.common.IDUtils;
-import com.dct.swocean.dao.SysUploadInfoMapper;
+import com.dct.swocean.dao.SysUploadInfoMapper2;
 import com.dct.swocean.entity.SysUploadInfo;
 import com.dct.swocean.service.SysUploadInfoService;
 import com.dct.swocean.util.DateUtil;
@@ -17,7 +17,7 @@ import com.dct.swocean.util.DateUtil;
 public class SysUploadInfoServiceImpl implements SysUploadInfoService {
 
 	@Autowired
-	private SysUploadInfoMapper sysUploadInfoMapper;
+	private SysUploadInfoMapper2 sysUploadInfoMapper;
 
 	@Override
 	public List<SysUploadInfo> selectByUploadTime(String userId, String fileType, Integer pageNo, Integer pageSize,

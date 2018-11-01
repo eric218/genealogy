@@ -17,55 +17,55 @@ import java.util.List;
 public class HomeInServiceImpl implements HomeInService {
 
     @Autowired
-    private DontionAreaInfoMapper dontionAreaInfoMapper;
+    private DontionAreaInfoMapper2 dontionAreaInfoMapper;
 
     @Autowired
-    private DonorMapper donorMapper;
+    private DonorMapper2 donorMapper;
 
     @Autowired
-    private ArticleAreaInfoMapper articleAreaInfoMapper;
+    private ArticleAreaInfoMapper2 articleAreaInfoMapper;
 
     @Autowired
-    private ArticlerInfoMapper articlerInfoMapper;
+    private ArticlerInfoMapper2 articlerInfoMapper;
 
     @Autowired
-    private UserVideoInfoMapper userVideoInfoMapper;
+    private UserVideoInfoMapper2 userVideoInfoMapper;
 
     @Autowired
-    private SysAreaInfoMapper sysAreaInfoMapper;
+    private SysAreaInfoMapper2 sysAreaInfoMapper;
 
     @Autowired
-    private SysDescribeMapper sysDescribeMapper;
+    private SysDescribeMapper2 sysDescribeMapper;
 
     @Autowired
-    private DescInfoMapper descInfoMapper;
+    private DescInfoMapper2 descInfoMapper;
 
     @Autowired
-    private SysDescInfoMapper sysDescInfoMapper;
+    private SysDescInfoMapper2 sysDescInfoMapper;
 
     @Autowired
-    private SysPicMapper sysPicMapper;
+    private SysPicMapper2 sysPicMapper;
 
     @Autowired
-    private SysUploadInfoMapper sysUploadInfoMapper;
+    private SysUploadInfoMapper2 sysUploadInfoMapper;
 
     @Autowired
-    private SysWritingInfoMapper sysWritingInfoMapper;
+    private SysWritingInfoMapper2 sysWritingInfoMapper;
 
     @Autowired
-    private AreaLeaderMapper areaLeaderMapper;
+    private AreaLeaderMapper2 areaLeaderMapper;
 
     @Autowired
-    private AreaLeaderInfoMapper areaLeaderInfoMapper;
+    private AreaLeaderInfoMapper2 areaLeaderInfoMapper;
 
     @Autowired
-    private SysUserRegInofMapper sysUserRegInofMapper;
+    private SysUserRegInofMapper2 sysUserRegInofMapper;
 
     @Autowired
-    private SysAccountInfoMapper sysAccountInfoMapper;
+    private SysAccountInfoMapper2 sysAccountInfoMapper;
 
     @Autowired
-    private SysDonationInfoMapper sysDonationInfoMapper;
+    private SysDonationInfoMapper2 sysDonationInfoMapper;
 
     @Override
     public SysAccountInfo select(String account) {

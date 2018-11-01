@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dct.swocean.dao.SysAccountInfoMapper;
-import com.dct.swocean.dao.SysAreaInfoMapper;
+import com.dct.swocean.dao.SysAccountInfoMapper2;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
 import com.dct.swocean.entity.SysAccountInfo;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.service.SysAccountService;
@@ -15,10 +15,10 @@ import com.dct.swocean.service.SysAccountService;
 public class SysAccountServiceImpl implements SysAccountService {
 
 	@Autowired
-	private SysAccountInfoMapper sysAccountInfoMapper;
+	private SysAccountInfoMapper2 sysAccountInfoMapper;
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 
 	// 增加基金总金额1
 	@Override

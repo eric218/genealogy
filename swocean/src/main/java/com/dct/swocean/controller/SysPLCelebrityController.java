@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dct.swocean.dao.SysWritingInfoMapper;
+import com.dct.swocean.dao.SysWritingInfoMapper2;
 import com.dct.swocean.entity.SysCelebrityInfo;
 import com.dct.swocean.entity.SysWritingInfo;
 import com.dct.swocean.service.SysPlCelebrityServices;
@@ -28,7 +28,7 @@ public class SysPLCelebrityController {
 	private SysPlCelebrityServices sysPlCelebrityServices;
 	
 	@Autowired
-	private SysWritingInfoMapper sysWritingInfoMapper;
+	private SysWritingInfoMapper2 sysWritingInfoMapper;
 	
 	@ResponseBody
 	@RequestMapping(value="/PLCelebrityWriting",method=RequestMethod.POST)

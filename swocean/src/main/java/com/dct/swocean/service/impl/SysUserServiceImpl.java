@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dct.swocean.dao.SysUserInfoMapper;
+import com.dct.swocean.dao.SysUserInfoMapper2;
 import com.dct.swocean.entity.SysUserInfo;
 import com.dct.swocean.service.SysUserInfoService;
 import com.github.pagehelper.PageHelper;
@@ -23,7 +23,7 @@ import com.github.pagehelper.PageInfo;
 public class SysUserServiceImpl implements SysUserInfoService{
 
 	@Autowired
-    private SysUserInfoMapper userMapper;
+    private SysUserInfoMapper2 userMapper;
 
 
 	// 因为必须要有返回值，才能保存到数据库中，如果保存的对象的某些字段是需要数据库生成的，

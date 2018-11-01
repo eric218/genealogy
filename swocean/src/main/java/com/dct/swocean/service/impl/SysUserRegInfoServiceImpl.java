@@ -3,7 +3,7 @@ package com.dct.swocean.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dct.swocean.dao.SysUserRegInofMapper;
+import com.dct.swocean.dao.SysUserRegInofMapper2;
 import com.dct.swocean.entity.SysUserRegInof;
 import com.dct.swocean.service.SysUserRegInfoService;
 
@@ -11,7 +11,7 @@ import com.dct.swocean.service.SysUserRegInfoService;
 public class SysUserRegInfoServiceImpl implements SysUserRegInfoService {
 
 	@Autowired
-	private SysUserRegInofMapper sysUserRegInofMapper;
+	private SysUserRegInofMapper2 sysUserRegInofMapper;
 
 	@Override
 	public void insert(SysUserRegInof sysUserRegInfo) {

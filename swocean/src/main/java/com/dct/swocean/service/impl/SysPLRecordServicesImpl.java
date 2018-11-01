@@ -12,9 +12,9 @@ import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FastDFSClient;
 import com.dct.swocean.common.IDUtils;
 import com.dct.swocean.common.RecordNotice;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysUploadInfoMapper;
-import com.dct.swocean.dao.SysWritingInfoMapper;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysUploadInfoMapper2;
+import com.dct.swocean.dao.SysWritingInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysUploadInfo;
 import com.dct.swocean.entity.SysWritingInfo;
@@ -31,13 +31,13 @@ import com.github.pagehelper.PageInfo;
 public class SysPLRecordServicesImpl implements SysPLRecordServices{
 
 	@Autowired
-	private SysWritingInfoMapper sysWritingInfoMapper;
+	private SysWritingInfoMapper2 sysWritingInfoMapper;
 	
 	@Autowired
-	private SysUploadInfoMapper sysUploadInfoMapper;
+	private SysUploadInfoMapper2 sysUploadInfoMapper;
 	
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 	
 	//文章发表
 	@Override

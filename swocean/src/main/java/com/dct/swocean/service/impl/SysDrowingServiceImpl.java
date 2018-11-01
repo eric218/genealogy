@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dct.swocean.common.IDUtils;
-import com.dct.swocean.dao.SysDrowingInfoMapper;
+import com.dct.swocean.dao.SysDrowingInfoMapper2;
 import com.dct.swocean.entity.SysDrowingInfo;
 import com.dct.swocean.service.SysDrowingService;
 import com.dct.swocean.util.DateUtil;
@@ -17,7 +17,7 @@ import com.dct.swocean.util.DateUtil;
 public class SysDrowingServiceImpl implements SysDrowingService {
 
 	@Autowired
-	private SysDrowingInfoMapper sysDrowingInfoMapper;
+	private SysDrowingInfoMapper2 sysDrowingInfoMapper;
 
 	@Override
 	public void insert(SysDrowingInfo sysDrowingInfo) {

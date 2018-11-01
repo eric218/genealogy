@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
-import com.dct.swocean.dao.FamilyIndustryMapper;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysWritingInfoMapper;
-import com.dct.swocean.dao.SysZipaiInfoMapper;
+import com.dct.swocean.dao.FamilyIndustryMapper2;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysWritingInfoMapper2;
+import com.dct.swocean.dao.SysZipaiInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysWritingInfo;
 import com.dct.swocean.service.SysCultureService;
@@ -27,13 +27,13 @@ import com.github.pagehelper.PageInfo;
 public class SysCultureServiceImpl implements SysCultureService {
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 	@Autowired
-	private FamilyIndustryMapper familyIndustryMapper;
+	private FamilyIndustryMapper2 familyIndustryMapper;
 	@Autowired
-	private SysZipaiInfoMapper sysZipaiInfoMapper;
+	private SysZipaiInfoMapper2 sysZipaiInfoMapper;
 	@Autowired
-	private SysWritingInfoMapper sysWritingInfoMapper;
+	private SysWritingInfoMapper2 sysWritingInfoMapper;
 
 	// 家族文化分类展示
 	@Override

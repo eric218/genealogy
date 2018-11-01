@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dct.swocean.dao.SysRoleInfoMapper;
+import com.dct.swocean.dao.SysRoleInfoMapper2;
 import com.dct.swocean.entity.SysRoleInfo;
 import com.dct.swocean.service.SysRoleInfoService;
 import com.dct.swocean.util.Response;
@@ -23,7 +23,7 @@ import com.dct.swocean.util.dbhelper.UpdateSQL;
 public class SysRoleInfoServiceImpl implements SysRoleInfoService
 {
     @Autowired
-    private SysRoleInfoMapper mapper;
+    private SysRoleInfoMapper2 mapper;
 
     @Override
     public void insert(InsertSQL insertSQL)

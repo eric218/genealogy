@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
-import com.dct.swocean.dao.FamilyIndustryMapper;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysConstantInfoMapper;
+import com.dct.swocean.dao.FamilyIndustryMapper2;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysConstantInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.service.SysIndustryService;
@@ -24,11 +24,11 @@ import com.github.pagehelper.PageInfo;
 public class SysIndustryServiceImpl implements SysIndustryService {
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 	@Autowired
-	private FamilyIndustryMapper familyIndustryMapper;
+	private FamilyIndustryMapper2 familyIndustryMapper;
 	@Autowired
-	private SysConstantInfoMapper sysConstantInfoMapper;
+	private SysConstantInfoMapper2 sysConstantInfoMapper;
 
 	/**
 	 * 私有财产

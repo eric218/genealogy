@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dct.swocean.dao.LogSystemMapper;
+import com.dct.swocean.dao.LogSystemMapper2;
 import com.dct.swocean.entity.LogSystem;
 import com.dct.swocean.util.loghelper.service.LogSystemService;
 
@@ -19,7 +19,7 @@ import com.dct.swocean.util.loghelper.service.LogSystemService;
 public class LogSystemServiceImpl implements LogSystemService
 {
     @Autowired
-    private LogSystemMapper logSystemMapper;
+    private LogSystemMapper2 logSystemMapper;
     
     @Override
     public LogSystem addLogSystem(String json)

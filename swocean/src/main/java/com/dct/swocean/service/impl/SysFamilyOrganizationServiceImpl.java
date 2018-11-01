@@ -11,10 +11,10 @@ import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyOrganization;
 import com.dct.swocean.common.FastDFSClient;
-import com.dct.swocean.dao.FamilyOrganizationMapper;
-import com.dct.swocean.dao.SysCelebrityInfoMapper;
-import com.dct.swocean.dao.SysConstantInfoMapper;
-import com.dct.swocean.dao.SysRightinfoInfoMapper;
+import com.dct.swocean.dao.FamilyOrganizationMapper2;
+import com.dct.swocean.dao.SysCelebrityInfoMapper2;
+import com.dct.swocean.dao.SysConstantInfoMapper2;
+import com.dct.swocean.dao.SysRightinfoInfoMapper2;
 import com.dct.swocean.entity.SysCelebrityInfo;
 import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysRightinfoInfo;
@@ -30,13 +30,13 @@ import com.github.pagehelper.PageInfo;
 public class SysFamilyOrganizationServiceImpl implements SysFamilyOrganizationService {
 
 	@Autowired
-	private SysRightinfoInfoMapper sysRightinfoInfoMapper;
+	private SysRightinfoInfoMapper2 sysRightinfoInfoMapper;
 	@Autowired
-	private SysConstantInfoMapper sysConstantInfoMapper;
+	private SysConstantInfoMapper2 sysConstantInfoMapper;
 	@Autowired
-	private SysCelebrityInfoMapper sysCelebrityInfoMapper;
+	private SysCelebrityInfoMapper2 sysCelebrityInfoMapper;
 	@Autowired
-	private FamilyOrganizationMapper familyOrganizationMapper;
+	private FamilyOrganizationMapper2 familyOrganizationMapper;
 	
 	//返回状态码 成功 SUCCESSFUL_CODE
 	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;

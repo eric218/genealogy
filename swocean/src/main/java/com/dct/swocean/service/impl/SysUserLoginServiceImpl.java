@@ -6,7 +6,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dct.swocean.dao.SysUserLoginInfoMappeer;
+import com.dct.swocean.dao.SysUserLoginInfoMappeer2;
 import com.dct.swocean.entity.SysUserLoginInfo;
 import com.dct.swocean.service.SysUserLoginService;
 import com.dct.swocean.util.DateUtil;
@@ -15,7 +15,7 @@ import com.dct.swocean.util.DateUtil;
 public class SysUserLoginServiceImpl implements SysUserLoginService {
 
 	@Autowired
-	private SysUserLoginInfoMappeer sysUserLoginInfoMappeer;
+	private SysUserLoginInfoMappeer2 sysUserLoginInfoMappeer;
 
 	@Override
 	public SysUserLoginInfo selectByUserId(String username) {

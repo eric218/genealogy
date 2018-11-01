@@ -3,7 +3,7 @@ package com.dct.swocean.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dct.swocean.dao.SysRightinfoInfoMapper;
+import com.dct.swocean.dao.SysRightinfoInfoMapper2;
 import com.dct.swocean.entity.SysRightinfoInfo;
 import com.dct.swocean.service.SysRightInfoService;
 
@@ -11,7 +11,7 @@ import com.dct.swocean.service.SysRightInfoService;
 public class SysRightInfoServiceImpl implements SysRightInfoService {
 
 	@Autowired
-	private SysRightinfoInfoMapper sysRightinfoInfoMapper;
+	private SysRightinfoInfoMapper2 sysRightinfoInfoMapper;
 
 	@Override
 	public SysRightinfoInfo select(Integer id) {

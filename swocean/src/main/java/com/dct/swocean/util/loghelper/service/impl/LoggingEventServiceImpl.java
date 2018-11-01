@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.dct.swocean.common.ConstantClassField;
-import com.dct.swocean.dao.LoggingEventMapper;
+import com.dct.swocean.dao.LoggingEventMapper2;
 import com.dct.swocean.entity.LoggingEvent;
 import com.dct.swocean.entity.LoggingEventVo;
 import com.dct.swocean.util.loghelper.service.ILoggingEventService;
@@ -28,7 +28,7 @@ import com.dct.swocean.util.loghelper.service.ILoggingEventService;
 public class LoggingEventServiceImpl implements ILoggingEventService {
 
 	@Autowired
-	private LoggingEventMapper loggingEventMapper;
+	private LoggingEventMapper2 loggingEventMapper;
 	
 	/**
 	 * 日志查询

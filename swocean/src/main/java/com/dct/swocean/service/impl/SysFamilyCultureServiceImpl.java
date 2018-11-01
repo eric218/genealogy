@@ -14,14 +14,14 @@ import com.dct.swocean.common.ConstantClassField;
 import com.dct.swocean.common.CulturePage;
 import com.dct.swocean.common.FamilyIndustry;
 import com.dct.swocean.common.IDUtils;
-import com.dct.swocean.dao.FamilyIndustryMapper;
-import com.dct.swocean.dao.SysAreaInfoMapper;
-import com.dct.swocean.dao.SysCollectInfoMapper;
-import com.dct.swocean.dao.SysConstantInfoMapper;
-import com.dct.swocean.dao.SysRightinfoInfoMapper;
-import com.dct.swocean.dao.SysUserRegInofMapper;
-import com.dct.swocean.dao.SysWritingInfoMapper;
-import com.dct.swocean.dao.SysZipaiInfoMapper;
+import com.dct.swocean.dao.FamilyIndustryMapper2;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
+import com.dct.swocean.dao.SysCollectInfoMapper2;
+import com.dct.swocean.dao.SysConstantInfoMapper2;
+import com.dct.swocean.dao.SysRightinfoInfoMapper2;
+import com.dct.swocean.dao.SysUserRegInofMapper2;
+import com.dct.swocean.dao.SysWritingInfoMapper2;
+import com.dct.swocean.dao.SysZipaiInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.entity.SysConstantInfo;
 import com.dct.swocean.entity.SysRightinfoInfo;
@@ -41,21 +41,21 @@ import com.github.pagehelper.PageInfo;
 public class SysFamilyCultureServiceImpl implements SysFamilyCultureService {
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 	@Autowired
-	private FamilyIndustryMapper familyIndustryMapper;
+	private FamilyIndustryMapper2 familyIndustryMapper;
 	@Autowired
-	private SysZipaiInfoMapper sysZipaiInfoMapper;
+	private SysZipaiInfoMapper2 sysZipaiInfoMapper;
 	@Autowired
-	private SysRightinfoInfoMapper sysRightinfoInfoMapper;
+	private SysRightinfoInfoMapper2 sysRightinfoInfoMapper;
 	@Autowired
-	private SysWritingInfoMapper sysWritingInfoMapper;
+	private SysWritingInfoMapper2 sysWritingInfoMapper;
 	@Autowired
-	private SysUserRegInofMapper sysUserRegInofMapper;
+	private SysUserRegInofMapper2 sysUserRegInofMapper;
 	@Autowired
-	private SysConstantInfoMapper sysConstantInfoMapper;
+	private SysConstantInfoMapper2 sysConstantInfoMapper;
 	@Autowired
-	private SysCollectInfoMapper sysCollectInfoMapper;
+	private SysCollectInfoMapper2 sysCollectInfoMapper;
 	
 	//返回状态码 成功 200
 	private Integer SUCCESSFUL_CODE=ConstantClassField.SUCCESSFUL_CODE;

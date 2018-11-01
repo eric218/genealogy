@@ -3,7 +3,7 @@ package com.dct.swocean.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dct.swocean.dao.SysAreaInfoMapper;
+import com.dct.swocean.dao.SysAreaInfoMapper2;
 import com.dct.swocean.entity.SysAreaInfo;
 import com.dct.swocean.service.SysAreaInfoService;
 
@@ -11,7 +11,7 @@ import com.dct.swocean.service.SysAreaInfoService;
 public class SysAreaInfoServiceImpl implements SysAreaInfoService {
 
 	@Autowired
-	private SysAreaInfoMapper sysAreaInfoMapper;
+	private SysAreaInfoMapper2 sysAreaInfoMapper;
 
 	@Override
 	public SysAreaInfo select(String id) {
