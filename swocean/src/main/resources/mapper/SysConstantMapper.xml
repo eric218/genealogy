@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dct.swocean.daos.SysConstantMapper">
+<mapper namespace="com.dct.swocean.dao.SysConstantMapper">
   <resultMap id="BaseResultMap" type="com.dct.swocean.entitys.SysConstant">
     <result column="constant_group" jdbcType="VARCHAR" property="constantGroup" />
     <result column="constant_name" jdbcType="VARCHAR" property="constantName" />

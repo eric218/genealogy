@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dct.swocean.daos.SysShowPositionMapper">
+<mapper namespace="com.dct.swocean.dao.SysShowPositionMapper">
   <resultMap id="BaseResultMap" type="com.dct.swocean.entitys.SysShowPosition">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="navigation_name" jdbcType="VARCHAR" property="navigationName" />

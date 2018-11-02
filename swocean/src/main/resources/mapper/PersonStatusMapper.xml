@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dct.swocean.daos.PersonStatusMapper">
+<mapper namespace="com.dct.swocean.dao.PersonStatusMapper">
   <resultMap id="BaseResultMap" type="com.dct.swocean.entitys.PersonStatus">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uese_id" jdbcType="INTEGER" property="ueseId" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dct.swocean.daos.SysCommentDetailMapper">
+<mapper namespace="com.dct.swocean.dao.SysCommentDetailMapper">
   <resultMap id="BaseResultMap" type="com.dct.swocean.entitys.SysCommentDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="comment_id" jdbcType="INTEGER" property="commentId" />
