@@ -1,6 +1,7 @@
 package com.dct.swocean.controllers;
 
 import com.dct.swocean.entitys.SysAccount;
+import com.dct.swocean.entitys.SysPayOut;
 import com.dct.swocean.services.CharityService;
 import com.dct.swocean.util.Response;
 import com.dct.swocean.util.ResponseUtlis;
@@ -19,10 +20,17 @@ public class CharityNewController {
     @Autowired
     private CharityService charityService;
 
-    @RequestMapping("select")
-    public Response<SysAccount> select(Integer netId) {
+    @RequestMapping("selectSysAccount")
+    public Response<SysAccount> selectSysAccount(Integer netId) {
 
         List<SysAccount> sysAccountList= charityService.selectByNetId(netId);
         return ResponseUtlis.success(sysAccountList);
+    }
+
+    @RequestMapping("selectSysPayOut")
+    public Response<SysPayOut> selectSysPayOut(Integer netId,Integer type) {
+
+        List<SysPayOut> sysPayOutList = charityService.selectByNetIdAndType(netId, type);
+        return ResponseUtlis.success(sysPayOutList);
     }
 }
